@@ -5,15 +5,13 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
  
 
 const LoginModal = (props) => {
-    const SERVER_URL ='/auth/signin';
+    const SERVER_URL ='auth/signin';
     const [username, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const history = useHistory();
-    // function validateForm() {
-    //     return email.length > 0 && password.length > 0;
-    //   }
-      
-      async  function handleSubmit(event) {
+    let signInRequest = {};
+
+    async  function handleSubmit(event) {
          event.preventDefault();
          if (username === "" || password === "") {
             alert("Fields are required");
@@ -25,8 +23,19 @@ const LoginModal = (props) => {
             //     fetch('/auth/signin').then((res) => res.json()).then((data) => {
             //     console.log('data',data)
             // });
-
-              const res =  fetch({ url: SERVER_URL, method: "POST",headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" }, body: JSON.stringify({ 'username': username.trim(), 'password': password.trim() }) });
+            signInRequest = {
+              'username': username, 'password': password
+            }
+              const res =  fetch(SERVER_URL, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
+                body: JSON.stringify(signInRequest)
+                 })
+                .then((res) => res.json())
+                .then((data) => {
+          
+                  console.log("response--"+data)
+                });
               //const data =  res.json();
               console.log('login data',JSON.stringify(res));
               //setHistory('/home');

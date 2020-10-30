@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
  
 const SignupModal = (props) => {
-  const SERVER_URL='/auth/signup'
+  const SERVER_URL='auth/signup'
   const [Username, setUsername] = useState("");
   const [Role, setRole] = useState('["mod","user"]');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  let signupRequest = {};
+  let authenticated = false;
  
 
 
@@ -23,11 +25,25 @@ const SignupModal = (props) => {
     console.log('Role',Role);
     console.log('email',email);
     console.log('password',password);
-    console.log(JSON.stringify({ 'username': email.trim(), 'password': password.trim(), 'email':email.trim(), 'role':Role}));
+    
     event.preventDefault();
-    const res = fetch({ url: SERVER_URL, method: "POST", body: JSON.stringify({ 'username': email.trim(), 'password': password.trim(), 'email':email.trim(), 'role':Role}) });
-   // const data =  res.json();
-    console.log('SignUP', JSON.stringify(res));
+
+    signupRequest = {
+      'username':Username, 'password': password.trim(), 'email':email.trim()
+
+    }
+
+    console.log("signupRequest--->"+JSON.stringify(signupRequest));
+    fetch(SERVER_URL, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
+      body: JSON.stringify(signupRequest)
+       })
+      .then((res) => res.json())
+      .then((data) => {
+         authenticated = true
+        console.log("response--"+data)
+      });
   }
     return (
         <>
