@@ -4,22 +4,30 @@ import { useHistory } from "react-router-dom";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
  
 const SignupModal = (props) => {
-  const name="";
-  const phone="";
+  const SERVER_URL='/auth/signup'
+  const [Username, setUsername] = useState("");
+  const [Role, setRole] = useState('["mod","user"]');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+ 
 
 
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
+//   function validateForm() {
+//     return email.length > 0 && password.length > 0;
+//   }
   
 
   function handleSubmit(event) {
+    console.log('Username',Username);
+    console.log('Role',Role);
+    console.log('email',email);
+    console.log('password',password);
+    console.log(JSON.stringify({ 'username': email.trim(), 'password': password.trim(), 'email':email.trim(), 'role':Role}));
     event.preventDefault();
-    //const res = await fetch({ url: SERVER_URL, method: "POST", body: values });
-    //const data = await res.json();
+    const res = fetch({ url: SERVER_URL, method: "POST", body: JSON.stringify({ 'username': email.trim(), 'password': password.trim(), 'email':email.trim(), 'role':Role}) });
+   // const data =  res.json();
+    console.log('SignUP', JSON.stringify(res));
   }
     return (
         <>
@@ -30,20 +38,24 @@ const SignupModal = (props) => {
                 <Modal.Body>
                 <div className="Login">
       <form onSubmit={handleSubmit}>
-      <FormGroup  bsSize="large">
-        Name
+      <FormGroup >
+        UserName
           <FormControl
             autoFocus
-            value={name}
+            value={Username}
+            onChange={e => setUsername(e.target.value)}
+            required
           />
         </FormGroup>
-        <FormGroup  bsSize="large">
-        Phone
+        <FormGroup  >
+        Password
           <FormControl
-            value={phone}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            
           />
         </FormGroup>
-        <FormGroup controlId="email" bsSize="large">
+        <FormGroup controlId="email" >
         Email
           <FormControl
             type="email"
@@ -51,15 +63,15 @@ const SignupModal = (props) => {
             onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          Password
+        {/* <FormGroup controlId="password" >
+          Role
           <FormControl
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
+            value={Role}
+            onChange={e => setRole(e.target.value)}
+            
           />
-        </FormGroup>
-        <Button variant="primary" disabled={!validateForm()} type="submit">
+        </FormGroup> */}
+        <Button variant="primary"  type="submit">
           Rigister
         </Button>{' '}
         

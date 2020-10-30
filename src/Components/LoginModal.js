@@ -5,33 +5,44 @@ import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
  
 
 const LoginModal = (props) => {
-    const [email, setEmail] = useState("");
+    const SERVER_URL ='/auth/signin';
+    const [username, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const history = useHistory();
-    function validateForm() {
-        return email.length > 0 && password.length > 0;
-      }
+    // function validateForm() {
+    //     return email.length > 0 && password.length > 0;
+    //   }
       
       async  function handleSubmit(event) {
          event.preventDefault();
-         if (email === "" || password === "") {
+         if (username === "" || password === "") {
             alert("Fields are required");
             return;
           }
           else{
-            if(email==='vishwa@gmail.com' && password==='1234'){
-                console.log('email',email ,password);
-                //const res = await fetch({ url: SERVER_URL, method: "POST", body: values });
-                //const data = await res.json();
-                //setHistory('/home');
-                
-                history.push("/home");
-                alert('you are loggedin!')
+              console.log('Inside signIn');
+              props.handleLoginModalOpen();
+            //     fetch('/auth/signin').then((res) => res.json()).then((data) => {
+            //     console.log('data',data)
+            // });
+
+              const res =  fetch({ url: SERVER_URL, method: "POST",headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" }, body: JSON.stringify({ 'username': username.trim(), 'password': password.trim() }) });
+              //const data =  res.json();
+              console.log('login data',JSON.stringify(res));
+              //setHistory('/home');
+            // if(email==='vishwa@gmail.com' && password==='1234'){
+            //     console.log('email',email ,password);
+            //     //const res = await fetch({ url: SERVER_URL, method: "POST", body: values });
+            //     //const data = await res.json();
+            //     //setHistory('/home');
+            //     props.handleLoginModalOpen();
+            //     history.push("/home");
+            //     alert('you are loggedin!')
      
-            }
-            else{
-                alert('please check credentials!');
-            }
+            // }
+            // else{
+            //     alert('please check credentials!');
+            // }
           }
       }
     return (
@@ -43,16 +54,16 @@ const LoginModal = (props) => {
                 <Modal.Body>
                 <div className="Login">
       <form onSubmit={handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-        Email
+        <FormGroup controlId="username" >
+        UserName
           <FormControl
             autoFocus
-            type="email"
-            value={email}
+            
+            value={username}
             onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
+        <FormGroup controlId="password" >
           Password
           <FormControl
             value={password}
@@ -60,9 +71,9 @@ const LoginModal = (props) => {
             type="password"
           />
         </FormGroup>
-        <Button variant="primary" disabled={!validateForm()} type="submit">
-          Login
-        </Button>{' '}
+        <Button variant="primary" type="submit">
+          LogIN
+        </Button>
         
         
       </form>

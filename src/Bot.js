@@ -87,7 +87,7 @@ export class Bot extends Component {
     }
 
     componentDidMount() {
-        fetch('/welcome').then((res) => res.json()).then((data) => {
+        fetch('/v1/welcome').then((res) => res.json()).then((data) => {
             console.log('data',data)
             let chatData = this.state.chatArray
             Object.keys(data).forEach(function(key) {
@@ -606,7 +606,7 @@ export class Bot extends Component {
             let DBQuestions=[]; // Clearing selected DB questions
                 let SelTopic = this.state.SelTopic;
                 const selTopic = SelTopic[0]; // fetching  selected topic to fetch questions
-                fetch('/getQuestionByTopicAndLevel?topic='+selTopic+'&difficulty_level='+msg, {
+                fetch('/v1/getQuestionByTopicAndLevel?topic='+selTopic+'&difficulty_level='+msg, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
@@ -672,7 +672,7 @@ export class Bot extends Component {
             this.setState({ SelTopic: SelTopic }); //Storing the selected topic into state object to use in fetech questions APi
             console.log('SelTopic is', SelTopic)
             console.log('inside fetch', msg)
-            fetch('/getDifficultyLevelByTopic?topic='+msg, {
+            fetch('/v1/getDifficultyLevelByTopic?topic='+msg, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
@@ -718,7 +718,7 @@ export class Bot extends Component {
             let Checkedval=[];
             console.log('fetch topic is called')
             //Topic API
-            fetch('/getTopics', {
+            fetch('/v1/getTopics', {
                 method: 'GET',
                 headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })

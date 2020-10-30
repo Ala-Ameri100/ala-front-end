@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import { FaQuestionCircle, FaInfoCircle, FaBeer, FaArrowCircleLeft } from 'react-icons/fa';
+import { FaQuestionCircle, FaInfoCircle } from 'react-icons/fa';
 import InfoModal from './InfoModal'
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'

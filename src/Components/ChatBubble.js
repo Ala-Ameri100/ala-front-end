@@ -93,11 +93,11 @@ export class ChatBubble extends React.Component{
          <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/bot-icon-5.jpg`} width="20px" height="20px"></IMges>
              <Bubble Multioption={this.props.Multioption} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() => this.props.handleClick(this.props.text)} onChange={()=> this.props.Multioption?this.props.handleCheck(this.props.choice): null} >
               
-              <TypingBalls>
+              {/* <TypingBalls>
                   <span></span>
                   <span></span>
                   <span></span>
-              </TypingBalls>
+              </TypingBalls> */}
              {/* <Bubble Multioption={props.Multioption} choice={props.choice} botMsg={props.botMsg} clicks={props.clicks} onClick={() => props.handleClick(props.text)}>  */}
               {this.props.Multioption ?
               <FormControlLabel

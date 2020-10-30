@@ -10,9 +10,9 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/signup" component={Rigister}></Route>
-          <Route path="/login" component={Login}></Route>
-          <Route path="/home" component={Bot}></Route>
+          {/* <Route path="/signup" component={Rigister}></Route>
+          <Route path="/login" component={Login}></Route> */}
+          <Route component={Bot}></Route>
         </Switch>
       </Router>
     </>
