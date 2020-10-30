@@ -4,6 +4,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { FaMicrophoneAlt, FaTelegramPlane } from 'react-icons/fa';
 import { ApplicationContext } from '../Context';
 
+
 const Msg = styled.div`
     display: flex;
     min-height: 15%;
@@ -19,6 +20,7 @@ const Msg = styled.div`
         height: 100%;
         margin: 0px 5px 0px 5px;
         padding: 5px;
+        box-shadow: 0px 5px 5px  grey;
     }
     
     div {
@@ -29,6 +31,7 @@ const Msg = styled.div`
 
         button {
             margin: 5px;
+            // box-shadow: 0px 5px 5px  grey;
         }
     }
 `;
@@ -101,9 +104,7 @@ export class MsgBox extends Component {
     render() {
         return (
             <>
-                <header>
-                    <h1>Hii</h1>
-                </header>
+                
                 <Msg>
                     {/* <textarea placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange}></textarea> */}
                     <Form.Control as="textarea" placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange} />
