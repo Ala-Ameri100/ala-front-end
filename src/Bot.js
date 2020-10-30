@@ -8,8 +8,14 @@ import { InfoBox } from './Components/InfoBox';
 import { ApplicationContext } from './Context';
 import styled, { keyframes } from 'styled-components';
 import { fadeInUp } from 'react-animations';
-import { FaRobot } from 'react-icons/fa';
 const bounceInAnimation = keyframes`${fadeInUp}`;
+const header = styled.div`
+    padding: 30px;
+    text-align: center;
+    background: #bc1a6b;
+    color: white;
+    font-size: 30px;
+`;
 const MainDiv = styled.div`
     display: flex;
     height: calc(100vh - 58px);
@@ -43,6 +49,15 @@ const ChatDiv = styled.div`
     animation: 1.0s ${bounceInAnimation};
     transition-timing-function: linear;
     box-shadow: 0px 5px 5px  grey;
+    header{
+        padding: 5px;
+        text-align: center;
+        background: #0000e6;
+        color: white;
+        font-size: 30px;
+        text-align:left;
+        font-style:
+    }
 `;
 
 const InfoDiv = styled.div`
@@ -817,6 +832,12 @@ export class Bot extends Component {
             else{
                 let chatArray = this.state.chatArray;
                 chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption:false
+                });
+                chatArray.push({
                     msg: 'Plase enter relevent message!',
                     botMsg: true,
                     clickable: false,
@@ -864,6 +885,7 @@ export class Bot extends Component {
                         {
                             this.state.ShowBot?
                             <ChatDiv>
+                                <header>ALA</header>
                                 <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val)=>this.handleCheck(val)}></ChatBox>
                                 <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>
                             </ChatDiv>:null
