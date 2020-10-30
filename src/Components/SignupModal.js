@@ -29,7 +29,7 @@ const SignupModal = (props) => {
     event.preventDefault();
 
     signupRequest = {
-      'username':Username, 'password': password.trim(), 'email':email.trim()
+      'username':Username, 'password': password.trim(), 'email':email.trim(), 'role':["mod","user"]
 
     }
 
