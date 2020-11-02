@@ -6,13 +6,13 @@ import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
  
 export default class NaviBar extends Component {
- 
+  
     constructor(props) {
         super(props);
         this.state = {
             modalOpen: false,
             lmodalOpen: false,
-            smodalOpen: false
+            smodalOpen: false,
         }
     }
  
@@ -23,7 +23,12 @@ export default class NaviBar extends Component {
             }
         })
     }
- 
+    handleLogout=()=>{
+        console.log('HII')
+        localStorage.setItem('accessToken',"")
+        console.log(JSON.stringify(localStorage.getItem('accessToken')))
+        
+    }
     handleLoginModalOpen = () => {
         this.setState((prevState) => {
             return {
@@ -48,8 +53,12 @@ export default class NaviBar extends Component {
                     </Navbar.Brand>
                    
                     <hr />
-                    <Nav.Link onClick={this.handleLoginModalOpen}>Login</Nav.Link>
-                    <Nav.Link onClick={this.handleSignupModalOpen}>Signup</Nav.Link>
+                    {localStorage.getItem('accessToken')? 
+                    <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>:
+                    <p><Nav.Link onClick={this.handleLoginModalOpen}>Login</Nav.Link>
+                    <Nav.Link onClick={this.handleSignupModalOpen}>Signup</Nav.Link></p>
+                    }
+                   
  
                     <div className="upload-icon">                    
                         <FaQuestionCircle className="faq-icon" size="1.5em" cursor="pointer" />

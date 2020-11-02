@@ -613,10 +613,12 @@ export class Bot extends Component {
             let CurrentRowID=[]; // Clearing current row iD   
             let DBQuestions=[]; // Clearing selected DB questions
                 let SelTopic = this.state.SelTopic;
+                const accessToken = localStorage.getItem('accessToken');
                 const selTopic = SelTopic[0]; // fetching  selected topic to fetch questions
                 fetch('/v1/getQuestionByTopicAndLevel?topic='+selTopic+'&difficulty_level='+msg, {
                 method: 'POST',
-                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
+                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*",
+                "Authorization":"Bearer "+ accessToken },
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
                  })
                 .then((res) => res.json())
@@ -677,12 +679,14 @@ export class Bot extends Component {
         if(msg){
             let SelTopic=[];
             SelTopic.push(msg);
+            const accessToken = localStorage.getItem('accessToken');
             this.setState({ SelTopic: SelTopic }); //Storing the selected topic into state object to use in fetech questions APi
             console.log('SelTopic is', SelTopic)
             console.log('inside fetch', msg)
             fetch('/v1/getDifficultyLevelByTopic?topic='+msg, {
                 method: 'POST',
-                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
+                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*",
+                "Authorization":"Bearer "+ accessToken },
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
             }).then((res) => res.json())
                 .then((data) => {
@@ -722,18 +726,18 @@ export class Bot extends Component {
         if (msg) {
             let selTopic=[];
             let DBQuestions=[];
-            let CurrentQuestion=[];
+            let CurrentQuestion=[]  ;
             let CurrentRowID=[];
             let Checkedval=[];
-            let accessToken = JSON.stringify(localStorage.getItem('accessToken'));
-            console.log('accessToken',accessToken);
+            const accessToken = localStorage.getItem('accessToken');
+            console.log('accessToken',typeof accessToken);
             console.log('fetch topic is called')
             //Topic API
             fetch('/v1/getTopics', {
                 method: 'GET',
                 headers: { "Content-Type": "application/json", "Access-Control-Origin": "*",
-                "Authorization":"Bearer "+accessToken}
-                //body: JSON.stringify({ 'messageText': msg, 'topic': null })
+                "Authorization":"Bearer "+ accessToken}
+                
             })
                 .then((res) => res.json())
                 .then((data) => {
