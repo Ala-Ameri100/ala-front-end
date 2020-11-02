@@ -12,8 +12,7 @@ const SignupModal = (props) => {
   const history = useHistory();
   let signupRequest = {};
   let authenticated = false;
- 
-
+  
 
 //   function validateForm() {
 //     return email.length > 0 && password.length > 0;
@@ -30,7 +29,6 @@ const SignupModal = (props) => {
 
     signupRequest = {
       'username':Username, 'password': password.trim(), 'email':email.trim(), 'role':["mod","user"]
-
     }
 
     console.log("signupRequest--->"+JSON.stringify(signupRequest));
@@ -42,6 +40,7 @@ const SignupModal = (props) => {
       .then((res) => res.json())
       .then((data) => {
          authenticated = true
+         props.handleSignupModalOpen();
         console.log("response--"+data)
       });
   }
@@ -88,7 +87,7 @@ const SignupModal = (props) => {
           />
         </FormGroup> */}
         <Button variant="primary"  type="submit">
-          Rigister
+          Register
         </Button>{' '}
         
       </form>

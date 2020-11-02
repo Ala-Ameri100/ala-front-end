@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { useHistory } from "react-router-dom";
 //import styled from 'styled-components';
 import  NaviBar  from './Components/Navibar';
 import { ChatBox } from './Components/ChatBox';
@@ -8,6 +8,7 @@ import { InfoBox } from './Components/InfoBox';
 import { ApplicationContext } from './Context';
 import styled, { keyframes } from 'styled-components';
 import { fadeInUp } from 'react-animations';
+import LoginModal from './Components/LoginModal';
 const bounceInAnimation = keyframes`${fadeInUp}`;
 const header = styled.div`
     padding: 30px;
@@ -99,6 +100,13 @@ export class Bot extends Component {
                     Multioption:false
               });
               });
+
+        //       chatData.push({
+        //         msg : 'Topic',
+        //         clickable: false, 
+        //         botMsg:true,
+        //         Multioption:false
+        //   });
 
             
             
@@ -710,17 +718,21 @@ export class Bot extends Component {
 
     //Fetch topic from db when user clicks on topic
     fetchTopic(msg) {
+        
         if (msg) {
             let selTopic=[];
             let DBQuestions=[];
             let CurrentQuestion=[];
             let CurrentRowID=[];
             let Checkedval=[];
+            let accessToken = JSON.stringify(localStorage.getItem('accessToken'));
+            console.log('accessToken',accessToken);
             console.log('fetch topic is called')
             //Topic API
             fetch('/v1/getTopics', {
                 method: 'GET',
-                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
+                headers: { "Content-Type": "application/json", "Access-Control-Origin": "*",
+                "Authorization":"Bearer "+accessToken}
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
             })
                 .then((res) => res.json())
@@ -874,7 +886,8 @@ export class Bot extends Component {
             <>
                 <ApplicationContext.Provider value={{ toggleListening: this.toggleListening }}>
                     <Listening hidden={this.state.listening} />
-                    <NaviBar className="NewChat"></NaviBar>
+                    <NaviBar className="NewChat" ></NaviBar>
+                    
                     <MainDiv>           
                         <InfoDiv>
                             <InfoBox 

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl } from "react-bootstrap";
+import { Bot } from "../Bot";
  
 
 const LoginModal = (props) => {
+    const accessToken=[];
     const SERVER_URL ='auth/signin';
     const [username, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const history = useHistory();
     let signInRequest = {};
+    let authentication=false;
 
     async  function handleSubmit(event) {
          event.preventDefault();
@@ -18,14 +21,9 @@ const LoginModal = (props) => {
             return;
           }
           else{
-              console.log('Inside signIn');
-              props.handleLoginModalOpen();
-            //     fetch('/auth/signin').then((res) => res.json()).then((data) => {
-            //     console.log('data',data)
-            // });
-            signInRequest = {
-              'username': username, 'password': password
-            }
+              signInRequest = {
+                'username': username, 'password': password
+              }
               const res =  fetch(SERVER_URL, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
@@ -33,11 +31,20 @@ const LoginModal = (props) => {
                  })
                 .then((res) => res.json())
                 .then((data) => {
-          
-                  console.log("response--"+data)
+                  accessToken.push({
+                    accessToken:data.accessToken
+                  })
+                  console.log('accessToken',accessToken[0].accessToken);
                 });
-              //const data =  res.json();
-              console.log('login data',JSON.stringify(res));
+              if(accessToken.length){
+                authentication=true;
+                localStorage.setItem('accessToken',accessToken[0].accessToken);
+                //const NewaccessToken = localStorage.getItem('accessToken')
+                const sval = JSON.stringify(localStorage.getItem('accessToken'))
+                console.log('NewaccessToken',sval)
+              }
+              //console.log('accessToken2',accessToken[0]);
+              
               //setHistory('/home');
             // if(email==='vishwa@gmail.com' && password==='1234'){
             //     console.log('email',email ,password);
@@ -88,8 +95,9 @@ const LoginModal = (props) => {
       </form>
     </div>
                 </Modal.Body>
-                
+                {/* <Bot UseraccessToken={accessToken}></Bot> */}
             </Modal>
+            
         </>
     );
 }
