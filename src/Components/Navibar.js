@@ -1,10 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component , Fragment} from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import { FaQuestionCircle, FaInfoCircle } from 'react-icons/fa';
+import styled from 'styled-components';
+import { FaQuestionCircle, FaInfoCircle, FaSignInAlt,FaSignOutAlt, FaStreetView } from 'react-icons/fa';
 import InfoModal from './InfoModal'
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
  
+const LogInSign = styled.div`
+display: inline;
+`;
+
 export default class NaviBar extends Component {
   
     constructor(props) {
@@ -24,11 +29,15 @@ export default class NaviBar extends Component {
         })
     }
     handleLogout=()=>{
-        console.log('HII')
-        localStorage.clear();
-        alert('You are logged Out!')     ;
-        window.location.reload(false);   
+        console.log('inside logout')
+        localStorage.setItem('accessToken',"")
+        this.handleLoginModalOpen();
+       // console.log(JSON.stringify(localStorage.getItem('accessToken')))
+
+      // this.handleLoginModalOpen();
+        
     }
+    
     handleLoginModalOpen = () => {
         this.setState((prevState) => {
             return {
@@ -36,6 +45,7 @@ export default class NaviBar extends Component {
             }
         })
     }
+
      handleSignupModalOpen = () => {
          this.setState((prevState) => {
             return {
@@ -47,17 +57,19 @@ export default class NaviBar extends Component {
     render() {
         return (
             <>
-                <Navbar className="color-nav">
+                <Navbar className="color-nav" >
                     <Navbar.Brand href="/" className="ameri-logo">
                         <img alt="Ameri100" style={{ "width": "7rem", "marginBottom": "5px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ameri100_logo.png/320px-Ameri100_logo.png"></img>
                     </Navbar.Brand>
                    
                     <hr />
+
+                    
                     {localStorage.getItem('accessToken')? 
-                    <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>:
-                    <Fragment><Nav.Link onClick={this.handleLoginModalOpen}>Login</Nav.Link><Nav.Link onClick={this.handleSignupModalOpen}>Signup</Nav.Link></Fragment>
-                    }
-                   
+                    <Nav.Link onClick={this.handleLogout} style={{color: "white", textDecoration: 'none'}}><FaSignOutAlt></FaSignOutAlt> Logout</Nav.Link>:
+                    <Fragment><Nav.Link onClick={this.handleLoginModalOpen} style={{color: "white", textDecoration: 'none'}}><FaSignInAlt></FaSignInAlt> Login</Nav.Link>
+                    <Nav.Link onClick={this.handleSignupModalOpen} style={{color: "white", textDecoration: 'none'}}><FaStreetView></FaStreetView> Signup</Nav.Link> </Fragment>
+                    }                   
  
                     <div className="upload-icon">                    
                         <FaQuestionCircle className="faq-icon" size="1.5em" cursor="pointer" />
@@ -76,6 +88,7 @@ export default class NaviBar extends Component {
                 <SignupModal
                 smodalOpen={this.state.smodalOpen}
                 handleSignupModalOpen={this.handleSignupModalOpen}
+                handleLoginModalOpen={this.handleLoginModalOpen}
             />
             </>
         )

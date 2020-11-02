@@ -92,6 +92,10 @@ code {
       max-width: 320px;
     }
   }
-.divwidth{
-  width:100px
+.Navbar .Nav.Link :hover{
+opacity: 0.5 !important;
+}
+
+.Button{
+  padding-left: 2%;
 }

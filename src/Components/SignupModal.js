@@ -17,7 +17,14 @@ const SignupModal = (props) => {
 //   function validateForm() {
 //     return email.length > 0 && password.length > 0;
 //   }
-  
+function handleClear(e) {
+  e.preventDefault();
+ // let cleardata="";
+  setUsername("");
+  setPassword("");
+  //console.log('The clear button was clicked.');
+}
+
 
   function handleSubmit(event) {
     console.log('Username',Username);
@@ -40,13 +47,32 @@ const SignupModal = (props) => {
       .then((res) => res.json())
       .then((data) => {
          authenticated = true
-         props.handleSignupModalOpen();
-        console.log("response--"+data)
+
+         let errmsg=data.message;
+
+         if(errmsg==='Error: Username is already taken!'){
+           alert('Username is already taken!')
+         }
+         else if(errmsg==='Error: Email is already in use!'){
+          alert('Email is already in use!')
+         }
+         else if(errmsg==='User registered successfully!'){
+          props.handleSignupModalOpen();
+          props.handleLoginModalOpen();
+         }
+         else{
+          alert('Enter valid Credentials!')
+         }
+         console.log('Error message',data.message)         
+         console.log("response--"+JSON.stringify(data))
       });
   }
     return (
         <>
-            <Modal show={props.smodalOpen} onHide={props.handleSignupModalOpen}>
+            <Modal 
+              show={props.smodalOpen} 
+              onHide={props.handleSignupModalOpen}
+              backdrop="static">
                 <Modal.Header closeButton>
                     <Modal.Title>Sign Up</Modal.Title>
                 </Modal.Header>
@@ -54,7 +80,7 @@ const SignupModal = (props) => {
                 <div className="Login">
       <form onSubmit={handleSubmit}>
       <FormGroup >
-        UserName
+        Username
           <FormControl
             autoFocus
             value={Username}
@@ -67,7 +93,7 @@ const SignupModal = (props) => {
           <FormControl
             value={password}
             onChange={e => setPassword(e.target.value)}
-            
+            required
           />
         </FormGroup>
         <FormGroup controlId="email" >
@@ -76,19 +102,16 @@ const SignupModal = (props) => {
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            required
           />
         </FormGroup>
-        {/* <FormGroup controlId="password" >
-          Role
-          <FormControl
-            value={Role}
-            onChange={e => setRole(e.target.value)}
-            
-          />
-        </FormGroup> */}
         <Button variant="primary"  type="submit">
-          Register
+          Signup
         </Button>{' '}
+        <Button variant="secondary" onClick={handleClear}>
+        Clear
+        </Button>
+        
         
       </form>
     </div>
