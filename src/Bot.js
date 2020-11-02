@@ -730,7 +730,7 @@ export class Bot extends Component {
             let CurrentRowID=[];
             let Checkedval=[];
             const accessToken = localStorage.getItem('accessToken');
-            console.log('accessToken',typeof accessToken);
+            console.log('accessToken',JSON.stringify(accessToken) );
             console.log('fetch topic is called')
             //Topic API
             fetch('/v1/getTopics', {

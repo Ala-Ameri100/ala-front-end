@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { FaQuestionCircle, FaInfoCircle } from 'react-icons/fa';
 import InfoModal from './InfoModal'
@@ -25,9 +25,9 @@ export default class NaviBar extends Component {
     }
     handleLogout=()=>{
         console.log('HII')
-        localStorage.setItem('accessToken',"")
-        console.log(JSON.stringify(localStorage.getItem('accessToken')))
-        
+        localStorage.clear();
+        alert('You are logged Out!')     ;
+        window.location.reload(false);   
     }
     handleLoginModalOpen = () => {
         this.setState((prevState) => {
@@ -55,8 +55,7 @@ export default class NaviBar extends Component {
                     <hr />
                     {localStorage.getItem('accessToken')? 
                     <Nav.Link onClick={this.handleLogout}>Logout</Nav.Link>:
-                    <p><Nav.Link onClick={this.handleLoginModalOpen}>Login</Nav.Link>
-                    <Nav.Link onClick={this.handleSignupModalOpen}>Signup</Nav.Link></p>
+                    <Fragment><Nav.Link onClick={this.handleLoginModalOpen}>Login</Nav.Link><Nav.Link onClick={this.handleSignupModalOpen}>Signup</Nav.Link></Fragment>
                     }
                    
  
