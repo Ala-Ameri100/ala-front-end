@@ -4,6 +4,7 @@ import { bounceIn } from 'react-animations';
 import { Checkbox, useIsFocusVisible, Radio } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+
 const bounceInAnimation = keyframes`${bounceIn}`;
 
 const TypingBalls = styled.div`
@@ -63,15 +64,19 @@ const Bubble = styled.div`
         color: white;
     }
 
+    &:hover {
+      opacity: ${props => bubbleOP(props)};
+      cursor: ${props => bubbleCursor(props)};
+      }
     animation: 0.5s ${bounceInAnimation};
 `;
 
 
-function bubbleColor(props) {
+function bubbleOP(props) {
     if (props.clicks) {
-        return "#28a745";
+        return 0.75;
     } else if(props.Multioption){
-        return "#e68a00"
+       return 0.75;
     }
     else if (props.botMsg) {
         return "#0069d9";
@@ -79,6 +84,34 @@ function bubbleColor(props) {
         return "#989898";
     }
     
+}
+
+function bubbleColor(props) {
+  if (props.clicks) {
+      return "#28a745";
+  } else if(props.Multioption){
+      return "#e68a00"
+  }
+  else if (props.botMsg) {
+      return "#0069d9";
+  } else {
+      return "#989898";
+  }
+  
+}
+
+function bubbleCursor(props) {
+  if (props.clicks) {
+      return 'pointer';
+  } else if(props.Multioption){
+      return 'pointer'
+  }
+  else if (props.botMsg) {
+      return '';
+  } else {
+      return '';
+  }
+  
 }
 
 

@@ -34,10 +34,7 @@ const LoginModal = (props) => {
         headers: { "Content-Type": "application/json", "Access-Control-Origin": "*" },
         body: JSON.stringify(signInRequest)
       })
-        .then((res) => res.json()).then((data) => {
-          localStorage.setItem('accessToken', data.accessToken);
-          localStorage.setItem('uname', data.username);
-
+        .then((res) => res.json()).then((data) => {          
           console.log('Error message', data.message)
           errmsg = data.message;
           console.log('Data after login', data.username)
@@ -48,7 +45,8 @@ const LoginModal = (props) => {
           }
           else {
             console.log('Login Success')
-
+            localStorage.setItem('accessToken', data.accessToken);
+            localStorage.setItem('uname', data.username);
             props.handleLoginModalOpen();
 
             window.location.reload(false);
@@ -114,7 +112,7 @@ const LoginModal = (props) => {
                 />
                 <small id="pwdHelp" class="text-muted">
                   Must be 6-40 characters long
-          </small>
+                </small>
               </FormGroup>
               {!isloading && <Button variant="primary" type="submit">
                 Login
@@ -131,7 +129,6 @@ const LoginModal = (props) => {
         </Modal.Body>
         {/* <Bot UseraccessToken={accessToken}></Bot> */}
       </Modal>
-
     </>
   );
 }

@@ -12,7 +12,7 @@ const Chat = styled.div`
     overflow-y: auto;
     padding: 5px;
     margin-bottom: 10px;
-    
+    border-radius: 5%;
     
 `;
 
@@ -48,7 +48,6 @@ export class ChatBox extends Component {
                     ref={(el) => { this.messagesEnd = el; }}>
                 </div>
             </Chat>
-
         )
     }
 }

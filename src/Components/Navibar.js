@@ -6,11 +6,6 @@ import InfoModal from './InfoModal'
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
  
-const User = styled.div`
-margin-right: 0px;
-`;
-
-
 export default class NaviBar extends Component {
   
     constructor(props) {
@@ -37,10 +32,6 @@ export default class NaviBar extends Component {
         localStorage.removeItem('uname')
         
         this.handleLoginModalOpen();
-       // console.log(JSON.stringify(localStorage.getItem('accessToken')))
-
-      // this.handleLoginModalOpen();
-        
     }
     
     handleLoginModalOpen = () => {
@@ -73,12 +64,6 @@ export default class NaviBar extends Component {
                     </div>
                     <hr />
 
-                    {/* <User>
-                    {localStorage.getItem('uname')? 
-                    <Nav.Item style={{color: "white"}}>HI {localStorage.getItem('uname')} ! </Nav.Item>: <Nav.Item></Nav.Item>
-                     }
-                    </User> */}
-                    
                     {localStorage.getItem('accessToken')? 
                     <Nav.Link onClick={this.handleLogout} style={{color: "white", textDecoration: 'none'}}><FaSignOutAlt></FaSignOutAlt> Logout</Nav.Link>:
                     <Fragment><Nav.Link onClick={this.handleLoginModalOpen} style={{color: "white", textDecoration: 'none'}}><FaSignInAlt></FaSignInAlt> Login</Nav.Link>
@@ -107,8 +92,4 @@ export default class NaviBar extends Component {
             </>
         )
     }
-
-    // NaviBar.defaultProps = {
-    //     uname: 'Sam'
-    //   };
 }

@@ -83,7 +83,7 @@ code {
 
   @media all and (min-width: 480px) {
     .Login {
-      padding: 60px 0;
+      padding: 40px 0;
       width: 100%;
     }
   
@@ -92,10 +92,16 @@ code {
       max-width: 320px;
     }
   }
+  
 .Navbar .Nav.Link :hover{
 opacity: 0.5 !important;
 }
 
 .Button{
   padding-left: 2%;
+}
+
+.formbtns{
+  display: flex;
+  justify-content: center;
 }

@@ -9,6 +9,8 @@ import { ApplicationContext } from './Context';
 import styled, { keyframes } from 'styled-components';
 import { fadeInUp } from 'react-animations';
 import LoginModal from './Components/LoginModal';
+import LoadingDots from './Components/LoadindDots';
+
 const bounceInAnimation = keyframes`${fadeInUp}`;
 const header = styled.div`
     padding: 30px;
@@ -44,22 +46,23 @@ const ChatDiv = styled.div`
     display: flex;
     flex-direction: column;
     width: 35%;
-    border: 2px solid grey;
     margin-left:10px
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     animation: 1.0s ${bounceInAnimation};
     transition-timing-function: linear;
-    box-shadow: 0px 5px 5px  grey;
+    box-shadow: 0px 3px 15px ;
     header{
         margin-bottom: 5px;
         padding: 5px;
         text-align: center;
-        box-shadow: 0px 2px 2px grey;
-        color: grey;
+        box-shadow: 0px 2px 2px white;
+        color: white;
         font-size: 30px;
         text-align:centre;
         font-family: "Times New Roman", Times, serif;
         border: grey
+        border-radius: 0.5rem;
+        background: linear-gradient(to bottom right,#642B73, #C6426E);
     }
 `;
 
@@ -85,7 +88,8 @@ export class Bot extends Component {
             TotalCorrectedQuestions: [
                 { AnsweredQuestions: 0, TotalQuestions: 0 }
             ],
-            Checkedval: []
+            Checkedval: [],
+            isLoading: false
         };
     }
 
@@ -98,19 +102,17 @@ export class Bot extends Component {
                 let atkon = localStorage.getItem('accessToken')
 
                 console.log('inside compdidmount', atkon)
-                if (atkon!=="") 
-                {  
+                if (atkon !== "") {
                     console.log('inside if')
 
                     chatData.push({
                         msg: data[key].message,
-                        clickable:data[key].clickable,
+                        clickable: data[key].clickable,
                         botMsg: true,
                         Multioption: false
                     });
                 }
-                else 
-                {
+                else {
                     console.log('inside else')
                     chatData.push({
                         msg: data[key].message,
@@ -118,10 +120,10 @@ export class Bot extends Component {
                         botMsg: true,
                         Multioption: false
                     });
-                }     
+                }
 
                 //console.log("key-->"+key)
-               
+
             });
             this.pushToChat(chatData);
         });
@@ -423,7 +425,6 @@ export class Bot extends Component {
 
     }
 
-
     //Verify answer when user choose any option
     CheckAnswer(msg) {
         let TotalCorrectedQuestions = this.state.TotalCorrectedQuestions;
@@ -612,6 +613,9 @@ export class Bot extends Component {
             let SelTopic = this.state.SelTopic;
             const accessToken = localStorage.getItem('accessToken');
             const selTopic = SelTopic[0]; // fetching  selected topic to fetch questions
+
+            this.setState({isLoading: true});
+
             fetch('/v1/getQuestionByTopicAndLevel?topic=' + selTopic + '&difficulty_level=' + msg, {
                 method: 'POST',
                 headers: {
@@ -623,6 +627,9 @@ export class Bot extends Component {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('Questions', data)
+
+                    this.setState({isLoading: false});
+
                     Object.keys(data).forEach(function (key) {
                         if (data[key].correctAnswer.length > 1) {
                             DBQuestions.push({
@@ -682,6 +689,9 @@ export class Bot extends Component {
             this.setState({ SelTopic: SelTopic }); //Storing the selected topic into state object to use in fetech questions APi
             console.log('SelTopic is', SelTopic)
             console.log('inside fetch', msg)
+
+            this.setState({isLoading: true});
+
             fetch('/v1/getDifficultyLevelByTopic?topic=' + msg, {
                 method: 'POST',
                 headers: {
@@ -691,6 +701,9 @@ export class Bot extends Component {
                 //body: JSON.stringify({ 'messageText': msg, 'topic': null })
             }).then((res) => res.json())
                 .then((data) => {
+
+                    this.setState({isLoading: false});
+
                     console.log('Difflevels', data)
                     let chatData = this.state.chatArray
                     chatData.push({
@@ -733,6 +746,10 @@ export class Bot extends Component {
             let CurrentRowID = [];
             let Checkedval = [];
             const accessToken = localStorage.getItem('accessToken');
+
+            this.setState({isLoading: true});
+
+            console.log('isloading',this.state.isLoading)
             console.log('accessToken', JSON.stringify(accessToken));
             console.log('fetch topic is called')
             //Topic API
@@ -746,6 +763,9 @@ export class Bot extends Component {
             })
                 .then((res) => res.json())
                 .then((data) => {
+
+                    this.setState({isLoading: false});
+
                     console.log('topics', data)
                     let chatData = this.state.chatArray
                     chatData.push({
@@ -790,86 +810,75 @@ export class Bot extends Component {
             console.log('chatArray', chatArray)
         }
     }
-    //  clear(){
-    //     this.state = {
-    //         chatArray: [],
-    //         listening: true,
-    //         ShowBot:false,
-    //         SelTopic:[],
-    //         DBQuestions:[],
-    //         CurrentQuestion:[],
-    //         CurrentRowID:[]
-    //     };
-    // }
 
     handleSend(msg) {
         if (msg) {
-            
-                if (msg.toUpperCase().trim() === "TOPIC") {
-                    this.fetchTopic(msg)
-                }
-                //Call question difficulty levels
-                else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
-                    console.log('inside elseif loop')
-                    this.fetchQuestionLevels(msg)
-                }
-                //call Questions
-                else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
-                    this.fetchQuestions(msg);
-                }
-                //Check for answers
-                else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
-                    this.CheckForCorrectAns(msg);
-                }
-                //When users click on next topic
-                else if (msg.trim() === "Next Question") {
-                    let chatArray = this.state.chatArray;
-                    chatArray.push({
-                        msg: msg,
-                        botMsg: false,
-                        clickable: false,
-                        Multioption: false
-                    });
-                    this.setState({ chatArray: chatArray })
 
-                    this.UploadQuestions(msg);
-                }
-                //When user clicks on see answers
-                else if (msg.trim() === "See Answer") {
-                    let chatArray = this.state.chatArray;
-                    chatArray.push({
-                        msg: msg,
-                        botMsg: false,
-                        clickable: false,
-                        Multioption: false
-                    });
-                    this.setState({ chatArray: chatArray })
-                    this.UploadAnswer(msg);
-                }
-                else if (msg.trim() == "Submit") {
-                    this.checkMultiAns();
-                }
-                //For un wanted text
-                else {
-                    let chatArray = this.state.chatArray;
-                    chatArray.push({
-                        msg: msg,
-                        botMsg: false,
-                        clickable: false,
-                        Multioption: false
-                    });
-                    chatArray.push({
-                        msg: 'Plase enter relevent message!',
-                        botMsg: true,
-                        clickable: false,
-                        Multioption: false
-                    });
-                    this.setState({ chatArray: chatArray });
-                    this.componentDidMount();
-                }
-            }                 
+            if (msg.toUpperCase().trim() === "TOPIC") {
+                this.fetchTopic(msg)
+            }
+            //Call question difficulty levels
+            else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
+                console.log('inside elseif loop')
+                this.fetchQuestionLevels(msg)
+            }
+            //call Questions
+            else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
+                this.fetchQuestions(msg);
+            }
+            //Check for answers
+            else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
+                this.CheckForCorrectAns(msg);
+            }
+            //When users click on next topic
+            else if (msg.trim() === "Next Question") {
+                let chatArray = this.state.chatArray;
+                chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray })
+
+                this.UploadQuestions(msg);
+            }
+            //When user clicks on see answers
+            else if (msg.trim() === "See Answer") {
+                let chatArray = this.state.chatArray;
+                chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray })
+                this.UploadAnswer(msg);
+            }
+            else if (msg.trim() == "Submit") {
+                this.checkMultiAns();
+            }
+            //For un wanted text
+            else {
+                let chatArray = this.state.chatArray;
+                chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                chatArray.push({
+                    msg: 'Plase enter relevent message!',
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray });
+                this.componentDidMount();
+            }
         }
-    
+    }
+
 
     handleCheck(val) {
         console.log('checked box is', val);
@@ -905,18 +914,12 @@ export class Bot extends Component {
                                 TotalQuestions={this.state.TotalCorrectedQuestions[0].TotalQuestions}
                             />
                         </InfoDiv>
-                        {
-                            this.state.ShowBot ?
-                                <ChatDiv>
-                                    <header>ALA</header>
-                                    <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
-                                    <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>
-                                </ChatDiv> : null
-                        }
-                        <div>
-                            {/* <FaRobot size="1.5em" className="button" onClick={()=>this.operations()}></FaRobot> */}
-                        </div>
-
+                        <ChatDiv>
+                            <header>ALA</header>
+                            <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
+                            {this.state.isLoading && <LoadingDots></LoadingDots>}
+                            <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>
+                        </ChatDiv>
                     </MainDiv>
                 </ApplicationContext.Provider>
 

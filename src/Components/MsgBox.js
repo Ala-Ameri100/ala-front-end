@@ -20,7 +20,7 @@ const Msg = styled.div`
         height: 100%;
         margin: 0px 5px 0px 5px;
         padding: 5px;
-        box-shadow: 0px 5px 5px  grey;
+        /*box-shadow: 0px 5px 5px  grey;*/
     }
     
     div {
