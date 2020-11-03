@@ -12,17 +12,10 @@ import LoginModal from './Components/LoginModal';
 import LoadingDots from './Components/LoadindDots';
 
 const bounceInAnimation = keyframes`${fadeInUp}`;
-const header = styled.div`
-    padding: 30px;
-    text-align: center;
-    background: grey;
-    color: #D3D3D3;
-    font-size: 30px;
-`;
 const MainDiv = styled.div`
     display: flex;
     height: calc(100vh - 58px);
-    padding:10px;
+    padding:30px;
 `;
 
 const Listening = styled.div`
@@ -46,24 +39,26 @@ const ChatDiv = styled.div`
     display: flex;
     flex-direction: column;
     width: 35%;
-    margin-left:10px
+    margin-left:30px
     border-radius: 0.5rem;
     animation: 1.0s ${bounceInAnimation};
     transition-timing-function: linear;
     box-shadow: 0px 3px 15px ;
+    // background: linear-gradient(#abbaab, #ffffff);
     header{
-        margin-bottom: 5px;
-        padding: 5px;
-        text-align: center;
-        box-shadow: 0px 2px 2px white;
+        width:100%;
+        height:15%;
+        position:relative;
+        background-image: linear-gradient(#8459f9, #4c3196);
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+        border-bottom-left-radius: 50% 20%;
+        border-bottom-right-radius: 50% 20%;
         color: white;
         font-size: 30px;
-        text-align:centre;
+        text-align: center;
         font-family: "Times New Roman", Times, serif;
-        border: grey
-        border-radius: 0.5rem;
-        background: linear-gradient(to bottom right,#642B73, #C6426E);
-    }
+      }
 `;
 
 const InfoDiv = styled.div`
@@ -915,7 +910,7 @@ export class Bot extends Component {
                             />
                         </InfoDiv>
                         <ChatDiv>
-                            <header>ALA</header>
+                        <header className="headers"><img src="/assets/logobot.png"width="40px" height="40px"></img>  ALA</header>
                             <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
                             {this.state.isLoading && <LoadingDots></LoadingDots>}
                             <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>

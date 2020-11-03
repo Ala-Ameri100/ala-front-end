@@ -146,8 +146,8 @@ export const InfoBox = (props)=> {
                     </Col>
                 </Row> */}
                 <MainDiv>
-                    <CardDiv style={{}}>
-                        <Card style={{ width: '80%' }}>
+                    <CardDiv>
+                        <Card style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>Score board</Card.Title>
                                 <ReactStoreIndicator
@@ -156,13 +156,15 @@ export const InfoBox = (props)=> {
                                 />
                             </Card.Body>
                         </Card>
-                        <Card style={{ width: '80%' }}>
+                        <br></br>
+                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>Stack Share</Card.Title>
                                 <Doughnut data={doughnutData} />
                             </Card.Body>
                         </Card>
-                        <Card style={{ width: '80%' }}>
+                        <br></br>
+                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>HANA EDGE</Card.Title>
                                 <div style={{ "display": "flex", "justifyContent": "center" }}>
@@ -170,7 +172,8 @@ export const InfoBox = (props)=> {
                                 </div>
                             </Card.Body>
                         </Card>
-                        <Card style={{ width: '80%' }}>
+                        <br></br>
+                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>User Sentiment</Card.Title>
                                 <Polar data={polarData} />

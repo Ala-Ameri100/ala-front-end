@@ -42,7 +42,7 @@ const TypingBalls = styled.div`
 const IMges=styled.img`
     visibility:${props => props.botMsg ? 'visible' : 'Hidden'};
     width:40px;
-    height:30px;
+    height:50px;
 `;
 
 const Bubblediv = styled.div`
@@ -123,7 +123,7 @@ export class ChatBubble extends React.Component{
 
       <Bubblediv botMsg={this.props.botMsg} className="divBub">
 
-         <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/bot-icon-5.jpg`} width="20px" height="20px"></IMges>
+         <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/logobot.png`}></IMges>
              <Bubble Multioption={this.props.Multioption} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() => this.props.handleClick(this.props.text)} onChange={()=> this.props.Multioption?this.props.handleCheck(this.props.choice): null} >
               
               {/* <TypingBalls>
