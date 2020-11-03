@@ -6,9 +6,10 @@ import InfoModal from './InfoModal'
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'
  
-const LogInSign = styled.div`
-display: inline;
+const User = styled.div`
+margin-right: 0px;
 `;
+
 
 export default class NaviBar extends Component {
   
@@ -65,11 +66,18 @@ export default class NaviBar extends Component {
                     <Navbar.Brand href="/" className="ameri-logo">
                         <img alt="Ameri100" style={{ "width": "7rem", "marginBottom": "5px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ameri100_logo.png/320px-Ameri100_logo.png"></img>
                     </Navbar.Brand>
-                   
-                    <hr />
-                    <div >
-                        {this.props.uname}
+                    <div>
+                    {localStorage.getItem('uname')? 
+                    <Nav.Item style={{color: "white"}}>Hi {localStorage.getItem('uname')} ! </Nav.Item>: <Nav.Item></Nav.Item>
+                     }
                     </div>
+                    <hr />
+
+                    {/* <User>
+                    {localStorage.getItem('uname')? 
+                    <Nav.Item style={{color: "white"}}>HI {localStorage.getItem('uname')} ! </Nav.Item>: <Nav.Item></Nav.Item>
+                     }
+                    </User> */}
                     
                     {localStorage.getItem('accessToken')? 
                     <Nav.Link onClick={this.handleLogout} style={{color: "white", textDecoration: 'none'}}><FaSignOutAlt></FaSignOutAlt> Logout</Nav.Link>:

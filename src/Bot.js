@@ -51,6 +51,7 @@ const ChatDiv = styled.div`
     transition-timing-function: linear;
     box-shadow: 0px 5px 5px  grey;
     header{
+        margin-bottom: 5px;
         padding: 5px;
         text-align: center;
         box-shadow: 0px 2px 2px grey;
@@ -98,7 +99,7 @@ export class Bot extends Component {
 
                 console.log('inside compdidmount', atkon)
                 if (atkon!=="") 
-                {   //Call topic API
+                {  
                     console.log('inside if')
 
                     chatData.push({
