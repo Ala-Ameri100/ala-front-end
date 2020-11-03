@@ -18,6 +18,7 @@ export default class NaviBar extends Component {
             modalOpen: false,
             lmodalOpen: false,
             smodalOpen: false,
+            userlogin: 'Guest'
         }
     }
  
@@ -28,9 +29,12 @@ export default class NaviBar extends Component {
             }
         })
     }
+
     handleLogout=()=>{
         console.log('inside logout')
         localStorage.setItem('accessToken',"")
+        localStorage.removeItem('uname')
+        
         this.handleLoginModalOpen();
        // console.log(JSON.stringify(localStorage.getItem('accessToken')))
 
@@ -63,7 +67,9 @@ export default class NaviBar extends Component {
                     </Navbar.Brand>
                    
                     <hr />
-
+                    <div >
+                        {this.props.uname}
+                    </div>
                     
                     {localStorage.getItem('accessToken')? 
                     <Nav.Link onClick={this.handleLogout} style={{color: "white", textDecoration: 'none'}}><FaSignOutAlt></FaSignOutAlt> Logout</Nav.Link>:
@@ -93,4 +99,8 @@ export default class NaviBar extends Component {
             </>
         )
     }
+
+    // NaviBar.defaultProps = {
+    //     uname: 'Sam'
+    //   };
 }

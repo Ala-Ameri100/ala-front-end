@@ -31,6 +31,7 @@ const LoginModal = (props) => {
                })
                .then((res) => res.json()).then((data) => {
                 localStorage.setItem('accessToken',data.accessToken);
+                localStorage.setItem('uname',data.username);
 
                 console.log('Error message',data.message)
                 errmsg = data.message;
@@ -45,6 +46,7 @@ const LoginModal = (props) => {
                  {
                   console.log('Login Success')
                   props.handleLoginModalOpen();
+                  window.location.reload(false);
                   }
                // setuserlogin(data.username);
                }).catch(() => {
