@@ -89,12 +89,12 @@ export class Bot extends Component {
     }
 
     componentDidMount() {
+        let atkon = localStorage.getItem('accessToken')
+
         fetch('/v1/welcome').then((res) => res.json()).then((data) => {
             console.log('data', data)
             let chatData = this.state.chatArray
             Object.keys(data).forEach(function (key) {
-
-                let atkon = localStorage.getItem('accessToken')
 
                 console.log('inside compdidmount', atkon)
                 if (atkon !== "") {
@@ -107,19 +107,27 @@ export class Bot extends Component {
                         Multioption: false
                     });
                 }
-                else {
+                else 
+                {
                     console.log('inside else')
                     chatData.push({
                         msg: data[key].message,
                         clickable: false,
                         botMsg: true,
                         Multioption: false
-                    });
+                    });                   
                 }
-
                 //console.log("key-->"+key)
-
             });
+
+            if (atkon == "") {
+            chatData.push({
+                msg: 'Please login',
+                botMsg: true,
+                clickable: false,
+                Multioption: false
+            });
+        }
             this.pushToChat(chatData);
         });
     }
@@ -806,7 +814,31 @@ export class Bot extends Component {
         }
     }
 
-    handleSend(msg) {
+    handleSend(msg){
+        const accessToken = localStorage.getItem('accessToken');
+        console.log(JSON.stringify(accessToken))
+        if(!accessToken){
+            let chatArray = this.state.chatArray;
+            chatArray.push({
+                msg: msg,
+                botMsg: false,
+                clickable: false,
+                Multioption: false
+            });
+                chatArray.push({
+                msg: 'Please login',
+                botMsg: true,
+                clickable: false,
+                Multioption: false
+            });
+            this.setState({ chatArray: chatArray })
+        }
+        else{
+            this.handleSendMsg(msg);
+        }
+    }
+
+    handleSendMsg(msg) {
         if (msg) {
 
             if (msg.toUpperCase().trim() === "TOPIC") {
