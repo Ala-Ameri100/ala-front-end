@@ -54,8 +54,8 @@ export default class NaviBar extends Component {
         return (
             <>
                 <Navbar className="color-nav" >
-                    <Navbar.Brand href="/" className="ameri-logo">
-                        <img alt="Ameri100" style={{ "width": "7rem", "marginBottom": "5px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ameri100_logo.png/320px-Ameri100_logo.png"></img>
+                    <Navbar.Brand href="/" className="ameri-logo" >
+                        <img alt="Ameri100" style={{ "width": "7rem", "marginBottom": "5px",  }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ameri100_logo.png/320px-Ameri100_logo.png"></img>
                     </Navbar.Brand>
                     <div>
                     {localStorage.getItem('uname')? 

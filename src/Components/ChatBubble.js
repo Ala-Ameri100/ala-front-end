@@ -58,7 +58,7 @@ const Bubble = styled.div`
     border-radius: ${props => props.botMsg ? "0px 7px 7px 7px" : "7px 0px 7px 7px"};
     margin: 5px;
     align-self: ${props => props.botMsg ? "flex-start" : "flex-end"};
-
+    box-shadow: 0px 2px 15px ;
     p {
         padding: 5px;
         color: white;

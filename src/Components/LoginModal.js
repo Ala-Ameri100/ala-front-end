@@ -84,8 +84,8 @@ const LoginModal = (props) => {
         onHide={props.handleLoginModalOpen}
         onExit={reload}
         backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
+        <Modal.Header closeButton className="login-nav">
+          <Modal.Title >Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="Login">

@@ -46,6 +46,7 @@ const ChatDiv = styled.div`
     box-shadow: 0px 3px 15px ;
     // background: linear-gradient(#abbaab, #ffffff);
     header{
+        
         width:100%;
         height:15%;
         position:relative;
@@ -778,13 +779,15 @@ export class Bot extends Component {
                     });
                     Object.keys(data).forEach(function (key) {
                         //console.log("key-->"+key)
-                        chatData.push({
-                            msg: data[key].topic,
-                            botMsg: true,//Msg is from bot
-                            clickable: true, //Make bubble clickable
-                            Topic: true, //Identify the pushed text is topic
-                            Multioption: false
-                        });
+                        if(data[key].topic!=""){
+                            chatData.push({
+                                msg: data[key].topic,
+                                botMsg: true,//Msg is from bot
+                                clickable: true, //Make bubble clickable
+                                Topic: true, //Identify the pushed text is topic
+                                Multioption: false
+                            });
+                        }
                     });
                     this.pushToChat(chatData);
 

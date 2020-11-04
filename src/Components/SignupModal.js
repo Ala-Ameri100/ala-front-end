@@ -19,6 +19,7 @@ const SignupModal = (props) => {
     // let cleardata="";
     setUsername("");
     setPassword("");
+    setEmail("");
     //console.log('The clear button was clicked.');
   }
 
@@ -72,7 +73,7 @@ const SignupModal = (props) => {
         show={props.smodalOpen}
         onHide={props.handleSignupModalOpen}
         backdrop="static">
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="login-nav">
           <Modal.Title>Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -94,6 +95,7 @@ const SignupModal = (props) => {
                   onChange={e => setPassword(e.target.value)}
                   required
                   aria-describedby="pwdHelp"
+                  type="password"
                 />
                 <small id="pwdHelp" class="text-muted">
                   Must be 6-40 characters long
