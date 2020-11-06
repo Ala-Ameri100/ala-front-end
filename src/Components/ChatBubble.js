@@ -58,7 +58,7 @@ const Bubble = styled.div`
     border-radius: ${props => props.botMsg ? "0px 7px 7px 7px" : "7px 0px 7px 7px"};
     margin: 5px;
     align-self: ${props => props.botMsg ? "flex-start" : "flex-end"};
-    box-shadow: 0px 2px 15px ;
+    box-shadow: 0px 3px 5px ;
     p {
         padding: 5px;
         color: white;
@@ -90,7 +90,7 @@ function bubbleColor(props) {
   if (props.clicks) {
       return "#28a745";
   } else if(props.Multioption){
-      return "#e68a00"
+      return "#28a745"
   }
   else if (props.botMsg) {
       return "#0069d9";
@@ -124,7 +124,7 @@ export class ChatBubble extends React.Component{
       <Bubblediv botMsg={this.props.botMsg} className="divBub">
 
          <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/logobot.png`}></IMges>
-             <Bubble Multioption={this.props.Multioption} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() => this.props.handleClick(this.props.text)} onChange={()=> this.props.Multioption?this.props.handleCheck(this.props.choice): null} >
+             <Bubble Multioption={this.props.Multioption} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() =>!this.props.options? this.props.handleClick(this.props.text):null} onChange={()=> this.props.options?this.props.handleCheck(this.props.text): null} >
               
               {/* <TypingBalls>
                   <span></span>
@@ -132,7 +132,7 @@ export class ChatBubble extends React.Component{
                   <span></span>
               </TypingBalls> */}
              {/* <Bubble Multioption={props.Multioption} choice={props.choice} botMsg={props.botMsg} clicks={props.clicks} onClick={() => props.handleClick(props.text)}>  */}
-              {this.props.Multioption ?
+              {/* {this.props.Multioption ?
               <FormControlLabel
               control={
                 <Radio
@@ -141,8 +141,8 @@ export class ChatBubble extends React.Component{
               }
               label={this.props.text}
               value={this.props.choice}
-            />:
-              <p>{this.props.text}</p>}
+            />: */}
+              <p>{this.props.text}</p>
       </Bubble>
       </Bubblediv>
       

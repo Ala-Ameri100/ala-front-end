@@ -21,7 +21,7 @@ export class ChatBox extends Component {
     componentDidUpdate() {
         setTimeout(() => {
             this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-        }, 500);
+        }, 1000);
     }
 
     handleClick(value, clickable) {
@@ -29,8 +29,8 @@ export class ChatBox extends Component {
         if (clickable) this.props.onClick(value);
         
     }
-    handleCheck(value, Multioption){
-        if(Multioption) {
+    handleCheck(value, options){
+        if(options) {
             this.props.onCheck(value);
             console.log('Option is',value )
         }
@@ -41,9 +41,11 @@ export class ChatBox extends Component {
         return (
             <Chat id="chatDiv">
                 {this.props.chatArray.map((chat, index) => {
-                    //console.log("chat--->"+JSON.stringify(chat)+"--index-->"+index)
-                    return <ChatBubble key={index} text={chat.msg} botMsg={chat.botMsg} choice={chat.choice} Multioption={chat.Multioption} clicks={chat.clickable} handleClick={(value) => this.handleClick(value, chat.clickable)} handleCheck={(value)=>this.handleCheck(value, chat.Multioption)}></ChatBubble>
+                    //console.log('this.props.chatArray',this.props.chatArray);
+                    
+                    return <ChatBubble options={chat.Qoptions} key={index} text={chat.msg} botMsg={chat.botMsg} choice={chat.choice} Multioption={chat.Multioption} clicks={chat.clickable} handleClick={(value) => this.handleClick(value, chat.clickable)} handleCheck={(value)=>this.handleCheck(value, chat.options)}></ChatBubble>
                 })}
+
                 <div style={{ float: "left", clear: "both" }}
                     ref={(el) => { this.messagesEnd = el; }}>
                 </div>
