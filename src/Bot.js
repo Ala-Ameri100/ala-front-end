@@ -12,6 +12,7 @@ import LoginModal from './Components/LoginModal';
 import LoadingDots from './Components/LoadindDots';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Checkbox, useIsFocusVisible, Radio } from '@material-ui/core';
+
 const bounceInAnimation = keyframes`${fadeInUp}`;
 const MainDiv = styled.div`
     display: flex;
@@ -47,11 +48,11 @@ const ChatDiv = styled.div`
     box-shadow: 0px 3px 15px ;
     // background: linear-gradient(#abbaab, #ffffff);
     header{
-
+        
         width:100%;
         height:15%;
         position:relative;
-        background-image: linear-gradient(#8459f9, #4c3196);
+        background-image: linear-gradient(to right, #303f9f,#45cafc);
         border-top-left-radius:10px;
         border-top-right-radius:10px;
         border-bottom-left-radius: 50% 20%;
@@ -86,14 +87,18 @@ export class Bot extends Component {
                 { AnsweredQuestions: 0, TotalQuestions: 0 }
             ],
             Checkedval: [],
-            isLoading: false
+            isLoading: false,
+            selectedvalue: '',
+            selectedQoption: ''
         };
+        this.rdlevelchange = this.rdlevelchange.bind(this);
+        this.selectedmulti = this.selectedmulti.bind(this);
     }
 
     componentDidMount() {
         let atkon = localStorage.getItem('accessToken')
 
-        fetch('/v1/welcome').then((res) => res.json()).then((data) => {
+        fetch('/api/v1/welcome').then((res) => res.json()).then((data) => {
             console.log('data', data)
             let chatData = this.state.chatArray
             Object.keys(data).forEach(function (key) {
@@ -109,8 +114,7 @@ export class Bot extends Component {
                         Multioption: false
                     });
                 }
-                else
-                {
+                else {
                     console.log('inside else')
                     chatData.push({
                         msg: data[key].message,
@@ -123,13 +127,13 @@ export class Bot extends Component {
             });
 
             if (atkon == "") {
-            chatData.push({
-                msg: 'Please login',
-                botMsg: true,
-                clickable: false,
-                Multioption: false
-            });
-        }
+                chatData.push({
+                    msg: 'Please login',
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
+            }
             this.pushToChat(chatData);
         });
     }
@@ -137,6 +141,20 @@ export class Bot extends Component {
     pushToChat(data) {
         let chatArray = this.state.chatArray;
         this.setState({ chatArray: data });
+    }
+
+    rdlevelchange(e) {
+        this.setState({ selectedvalue: e.target.value });
+        console.log('selected event ', e.target.value)
+        // console.log('selected option',this.state.)
+    }
+
+    selectedmulti(e){
+         let Checkedval = this.state.Checkedval;
+         Checkedval.push({
+             val: e.target.value
+         });      
+         this.setState({ Checkedval: Checkedval });
     }
 
     //Upload answer to chatArray when user clicks on see answer
@@ -161,7 +179,7 @@ export class Bot extends Component {
                     AnsArray.push({
                         value: CurrentQuestion[key].AnsKey.charAt(i) - 1
                     });
-                    //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i));
+                    //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i)); 
                     console.log('AnsArray', AnsArray)
                 }
                 for (let i = 0; i < AnsArray.length; i++) {
@@ -187,7 +205,6 @@ export class Bot extends Component {
 
     //Function to upload questions to chatarray
     UploadQuestions(msg) {
-        let currentQuestionsAns=[];
         let total;
         let TotalCorrectedQuestions = this.state.TotalCorrectedQuestions;
         let CurrentQuestion = [];
@@ -197,6 +214,8 @@ export class Bot extends Component {
         let chatData = this.state.chatArray;
         console.log('Inside uploadQuestions', CurrentQuestion)
         let count = 1;
+
+        let CurQuestionarr = [];
         //Checking fo rowID to upload next questions
         //If the rowID is undefined then it will starts from begining
         //IF rowID is not zero then upload next question
@@ -230,11 +249,16 @@ export class Bot extends Component {
             RowID = -1;
         }
         //Looping DBquestion to insert that to current question
+
+        let currentComponent = this;
+
         Object.keys(DBQuestions).forEach(function (key) {
             key = parseInt(RowID) + 1;
             console.log('key', key)
             if (count > 0) {
                 console.log('count', count)
+
+                // let selectedQoption = this.state.selectedQoption;
 
                 if (DBQuestions[key].questionText !== "") {
                     console.log('DBQuestions[key].questionText', DBQuestions[key].questionText)
@@ -242,257 +266,325 @@ export class Bot extends Component {
                         msg: DBQuestions[key].questionText,
                         botMsg: true,
                         clickable: false,
-                        Questions: true,
+                        IsQuestion:true
                     });
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].questionText,
-                        botMsg: true,
-                        clickable: false,
-                        Questions: true,
-                    });
+                }
+
+                if (DBQuestions[key].MultipleAns == true) {
+
+                    if (DBQuestions[key].answerChoice1 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice1}
+                                value={1}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice1,
+                            key: key,
+                            choice: 1,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+        
+                    }
+
+                    if (DBQuestions[key].answerChoice2 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice2}
+                                value={2}
+                                onChange={currentComponent.selectedmulti}
+                                
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice2,
+                            key: key,
+                            choice: 2,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+        
+                    }
+                    if (DBQuestions[key].answerChoice3 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice3}
+                                value={3}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice3,
+                            key: key,
+                            choice: 3,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+
+
+                    if (DBQuestions[key].answerChoice4 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice4}
+                                value={4}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice4,
+                            key: key,
+                            choice: 4,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+                    if (DBQuestions[key].answerChoice5 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice5}
+                                value={5}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice5,
+                            key: key,
+                            choice: 5,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+                    if (DBQuestions[key].answerChoice6 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice6}
+                                value={6}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice6,
+                            key: key,
+                            choice: 6,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+
+                    if (DBQuestions[key].answerChoice7 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice7}
+                                value={7}
+                                onChange={currentComponent.selectedmulti}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice7,
+                            key: key,
+                            choice: 7,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
 
                 }
-                if (DBQuestions[key].answerChoice1 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice1)
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice1}
-                        value={DBQuestions[key].answerChoice1}
-                        key={DBQuestions[key].answerChoice1}
-                        onChange={DBQuestions[key].answerChoice1}
-                        />
-                    )
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice1,
-                    //     botMsg: true, //To know it is bot message
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true, //Making bubble as clickable
-                    //     key: key, //Inserting row number
-                    //     choice: 1, //Making this option as 1
-                    //     AnsKey: DBQuestions[key].correctAnswer, //Inserting answer key for future use
-                    //     Qoptions: true, //To determine it is a option
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice1,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 1,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
+                else 
+                {
+
+
+
+                    if (DBQuestions[key].answerChoice1 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice1}
+                                value={DBQuestions[key].answerChoice1}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice1,
+                            key: key,
+                            choice: 1,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+
+                    if (DBQuestions[key].answerChoice2 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice2}
+                                value={DBQuestions[key].answerChoice2}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice2,
+                            key: key,
+                            choice: 2,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+                    if (DBQuestions[key].answerChoice3 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice3}
+                                value={DBQuestions[key].answerChoice3}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice3,
+                            key: key,
+                            choice: 3,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+
+
+                    if (DBQuestions[key].answerChoice4 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice4}
+                                value={DBQuestions[key].answerChoice4}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice4,
+                            key: key,
+                            choice: 4,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+                    if (DBQuestions[key].answerChoice5 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice5}
+                                value={DBQuestions[key].answerChoice5}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice5,
+                            key: key,
+                            choice: 5,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+                    if (DBQuestions[key].answerChoice6 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice6}
+                                value={DBQuestions[key].answerChoice6}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice6,
+                            key: key,
+                            choice: 6,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
+
+                    if (DBQuestions[key].answerChoice7 !== "") {
+                        CurQuestionarr.push(
+                            <FormControlLabel
+                                control={
+                                    <Radio
+                                    />
+                                }
+                                label={DBQuestions[key].answerChoice7}
+                                value={DBQuestions[key].answerChoice7}
+                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                            />
+                        );
+                        CurrentQuestion.push({
+                            msg: DBQuestions[key].answerChoice7,
+                            key: key,
+                            choice: 7,
+                            AnsKey: DBQuestions[key].correctAnswer,
+                        });
+                    }
                 }
-                if (DBQuestions[key].answerChoice2 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice2)
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice2}
-                        value={DBQuestions[key].answerChoice2}
-                        key={DBQuestions[key].answerChoice2}
-                        onCheck={DBQuestions[key].answerChoice2}
-                        />
-                    )
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice2,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 2,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice2,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 2,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                } if (DBQuestions[key].answerChoice3 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice3)
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice3}
-                        value={DBQuestions[key].answerChoice3}
-                        key={DBQuestions[key].answerChoice3}
-                        onCheck={DBQuestions[key].answerChoice3}
-                        />
-                    )
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice3,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 3,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice3,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 3,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                } if (DBQuestions[key].answerChoice4 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice4)
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice4,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 4,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice4}
-                        value={DBQuestions[key].answerChoice4}
-                        key={DBQuestions[key].answerChoice4}
-                        onCheck={DBQuestions[key].answerChoice4}
-                        />
-                    )
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice4,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 4,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                } if (DBQuestions[key].answerChoice5 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice5)
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice5,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 5,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice5}
-                        value={DBQuestions[key].answerChoice5}
-                        key={DBQuestions[key].answerChoice5}
-                        onClick={DBQuestions[key].answerChoice5}
-                        />
-                    )
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice5,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 5,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                }
-                if (DBQuestions[key].answerChoice6 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice6)
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice6,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 6,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice6}
-                        value={DBQuestions[key].answerChoice6}
-                        key={DBQuestions[key].answerChoice6}
-                        onClick={DBQuestions[key].answerChoice6}
-                        />
-                    )
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice6,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 6,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                }
-                if (DBQuestions[key].answerChoice7 !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].answerChoice7)
-                    // chatData.push({
-                    //     msg: DBQuestions[key].answerChoice7,
-                    //     botMsg: true,
-                    //     clickable: DBQuestions[key].MultipleAns ? false : true,
-                    //     key: key,
-                    //     choice: 7,
-                    //     AnsKey: DBQuestions[key].correctAnswer,
-                    //     Qoptions: true,
-                    //     Multioption: DBQuestions[key].MultipleAns ? true : false
-                    // });
-                    currentQuestionsAns.push(
-                        <FormControlLabel
-                            control={
-                            <Radio color="primary"/>
-                            }
-                        label={DBQuestions[key].answerChoice7}
-                        value={DBQuestions[key].answerChoice7}
-                        key={DBQuestions[key].answerChoice7}
-                        onClick={DBQuestions[key].answerChoice7}
-                        />
-                    )
-                    CurrentQuestion.push({
-                        msg: DBQuestions[key].answerChoice7,
-                        botMsg: true,
-                        clickable: DBQuestions[key].MultipleAns ? false : true,
-                        key: key,
-                        choice: 7,
-                        AnsKey: DBQuestions[key].correctAnswer,
-                        Qoptions: true,
-                        Multioption: DBQuestions[key].MultipleAns ? true : false
-                    });
-                }
+
+               // currentComponent.setState({Checkedval:Checkedval})
+
+                chatData.push({
+                    msg: CurQuestionarr,
+                    botMsg: true, //To know it is bot message
+                    //clickable: DBQuestions[key].MultipleAns ? false : true, //Making bubble as clickable
+                    clickable: false,
+                    key: key, //Inserting row number
+                    choice: 1, //Making this option as 1
+                    AnsKey: DBQuestions[key].correctAnswer, //Inserting answer key for future use
+                    Qoptions: true, //To determine it is a option
+                    Multioption: DBQuestions[key].MultipleAns ? true : false
+                });
+
+                
                 if (DBQuestions[key].MultipleAns == true) {
                     chatData.push({
                         msg: "Submit",
                         botMsg: true,
-                        clickable: true,
-                        submit:true
+                        clickable: true
+                    });
+                }
+                else {
+                    chatData.push({
+                        msg: "Submit Option",
+                        botMsg: true,
+                        clickable: true
                     });
                 }
 
@@ -501,19 +593,9 @@ export class Bot extends Component {
                 console.log('Total', total);
 
                 //TotalCorrectedQuestions = TotalCorrectedQuestions[0].TotalQuestions = total
-                chatData.push({
-                    msg: currentQuestionsAns,
-                    botMsg: true, //To know it is bot message
-                    clickable: DBQuestions[key].MultipleAns ? false : true, //Making bubble as clickable
-                    choice: 1, //Making this option as 1
-                    AnsKey: DBQuestions[key].correctAnswer, //Inserting answer key for future use
-                    Qoptions: true, //To determine it is a option
-                    Multioption: DBQuestions[key].MultipleAns ? true : false
-                });
 
             }
             count--;
-            
         });
         //TotalCorrectedQuestions = this.state.TotalCorrectedQuestions[0].TotalQuestions = total
         this.setState({ TotalCorrectedQuestions: TotalCorrectedQuestions });
@@ -560,7 +642,7 @@ export class Bot extends Component {
         else {
             return 0 + "," + rowID; //sending answer with checked question row ID if the user choosed option is wrong
         }
-        // const tifOptions = Object.keys(CurrentQuestion).map(key =>
+        // const tifOptions = Object.keys(CurrentQuestion).map(key => 
         //     <option value={key}>{CurrentQuestion[key].msg}</option>
         // )
         // console.log('Inside check answerssssssss',tifOptions)
@@ -647,7 +729,9 @@ export class Bot extends Component {
         const chatArray = this.state.chatArray.slice();
         if (this.state.Checkedval.length) {
             if (this.state.CurrentQuestion.length) {
+                console.log('currentQuestion inside multi ans',this.state.CurrentQuestion)
                 AnsKey = this.state.CurrentQuestion[0].AnsKey;
+                console.log('AnsKey',AnsKey)
                 currentRow = this.state.CurrentQuestion[0].key;
             }
             let Checkedval = this.state.Checkedval;
@@ -708,15 +792,15 @@ export class Bot extends Component {
     fetchQuestions(msg) {
         if (msg) {
             let strchck = "More than one answer is possible";
-            let CurrentRowID = []; // Clearing current row iD
+            let CurrentRowID = []; // Clearing current row iD   
             let DBQuestions = []; // Clearing selected DB questions
             let SelTopic = this.state.SelTopic;
             const accessToken = localStorage.getItem('accessToken');
             const selTopic = SelTopic[0]; // fetching  selected topic to fetch questions
 
-            this.setState({isLoading: true});
+            this.setState({ isLoading: true });
 
-            fetch('/v1/getQuestionByTopicAndLevel?topic=' + selTopic + '&difficulty_level=' + msg, {
+            fetch('/api/v1/getQuestionByTopicAndLevel?topic=' + selTopic + '&difficulty_level=' + msg, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json", "Access-Control-Origin": "*",
@@ -728,7 +812,7 @@ export class Bot extends Component {
                 .then((data) => {
                     console.log('Questions', data)
 
-                    this.setState({isLoading: false});
+                    this.setState({ isLoading: false });
 
                     Object.keys(data).forEach(function (key) {
                         if (data[key].correctAnswer.length > 1) {
@@ -790,9 +874,9 @@ export class Bot extends Component {
             console.log('SelTopic is', SelTopic)
             console.log('inside fetch', msg)
 
-            this.setState({isLoading: true});
+            this.setState({ isLoading: true });
 
-            fetch('/v1/getDifficultyLevelByTopic?topic=' + msg, {
+            fetch('/api/v1/getDifficultyLevelByTopic?topic=' + msg, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json", "Access-Control-Origin": "*",
@@ -802,7 +886,8 @@ export class Bot extends Component {
             }).then((res) => res.json())
                 .then((data) => {
 
-                    this.setState({isLoading: false});
+                    let temparr = [];
+                    this.setState({ isLoading: false });
 
                     console.log('Difflevels', data)
                     let chatData = this.state.chatArray
@@ -811,17 +896,66 @@ export class Bot extends Component {
                         botMsg: true,
                         clickable: false
                     });
+                    this.setState({ selectedvalue: data[0] })
+                    console.log('initial selection : ', this.state.selectedvalue)
                     {
+                        temparr.push()
                         data.map(diiflevels => (
-                            chatData.push({
-                                msg: diiflevels,
-                                botMsg: true,
-                                clickable: true,
-                                Qlevels: true,// to identify the pushed text is Question levels
-                                Multioption: false
-                            })
+                            temparr.push(
+                                <form>
+                                    <FormControlLabel
+                                        control={<Radio />}
+                                        label={diiflevels}
+                                        value={diiflevels}
+                                        name="groupname"
+                                        //checked={this.state.selectedvalue==diiflevels}
+                                        onChange={this.rdlevelchange}
+                                    />
+                                </form>
+
+                                //     <form >
+                                //          <input
+                                //        type="radio"                              
+                                //        value={diiflevels}
+                                //        name="level"
+                                //        onChange={this.rdlevelchange}
+                                //         //checked={this.state.rdchklevel==diiflevels}                                
+                                //   />
+                                //     <label>
+                                //         {diiflevels}
+                                //     </label>                             
+                                //   </form>
+                            )
                         ))
+                        //console.log('inside temparr',temparr)
                     };
+
+                    chatData.push({
+                        msg: temparr,
+                        botMsg: true,
+                        clickable: false,
+                        Qlevels: true,// to identify the pushed text is Question levels
+                        Multioption: false
+                        //choice: 1
+                    })
+                    chatData.push({
+                        msg: "Submit Level",
+                        botMsg: true,
+                        clickable: true,
+                        Qlevels: true,
+                        Multioption: false
+                        //choice: 1
+                    })
+
+                    // chatData.push({
+                    //      msg: this.state.selectedvalue,
+                    //         botMsg: false,
+                    //         clickable: true,
+                    //         Qlevels: true,
+                    //          Multioption: false
+                    //          //choice: 1
+                    //      })
+
                     this.pushToChat(chatData);
                 });
             const chatArray = this.state.chatArray.slice();
@@ -845,15 +979,16 @@ export class Bot extends Component {
             let CurrentQuestion = [];
             let CurrentRowID = [];
             let Checkedval = [];
+            let temptoparr = [];
             const accessToken = localStorage.getItem('accessToken');
 
-            this.setState({isLoading: true});
+            this.setState({ isLoading: true });
 
-            console.log('isloading',this.state.isLoading)
+            console.log('isloading', this.state.isLoading)
             console.log('accessToken', JSON.stringify(accessToken));
             console.log('fetch topic is called')
             //Topic API
-            fetch('/v1/getTopics', {
+            fetch('/api/v1/getTopics', {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json", "Access-Control-Origin": "*",
@@ -864,7 +999,7 @@ export class Bot extends Component {
                 .then((res) => res.json())
                 .then((data) => {
 
-                    this.setState({isLoading: false});
+                    this.setState({ isLoading: false });
 
                     console.log('topics', data)
                     let chatData = this.state.chatArray
@@ -873,18 +1008,44 @@ export class Bot extends Component {
                         botMsg: true,
                         clickable: false
                     });
+
+                    let thistopic = this
                     Object.keys(data).forEach(function (key) {
                         //console.log("key-->"+key)
-                        if(data[key].topic!=""){
-                            chatData.push({
-                                msg: data[key].topic,
-                                botMsg: true,//Msg is from bot
-                                clickable: true, //Make bubble clickable
-                                Topic: true, //Identify the pushed text is topic
-                                Multioption: false
-                            });
+                        if (data[key].topic != "") {
+
+                            temptoparr.push(
+                                <form>
+                                    <FormControlLabel
+                                        control={<Radio />}
+                                        label={data[key].topic}
+                                        value={data[key].topic}
+                                        name="groupname"
+                                        //checked={this.state.selectedvalue==diiflevels}
+                                        onChange={thistopic.rdlevelchange}
+                                    />
+                                </form>
+                            )
                         }
                     });
+
+                    chatData.push({
+                        msg: temptoparr,
+                        botMsg: true,//Msg is from bot
+                        clickable: false, //Make bubble clickable
+                        Topic: true, //Identify the pushed text is topic
+                        Multioption: false
+                    });
+
+
+                    chatData.push({
+                        msg: "Submit Topic",
+                        botMsg: true,//Msg is from bot
+                        clickable: true, //Make bubble clickable
+                        Topic: true, //Identify the pushed text is topic
+                        Multioption: false
+                    });
+
                     this.pushToChat(chatData);
 
                 });
@@ -913,10 +1074,10 @@ export class Bot extends Component {
         }
     }
 
-    handleSend(msg){
+    handleSend(msg) {
         const accessToken = localStorage.getItem('accessToken');
         console.log(JSON.stringify(accessToken))
-        if(!accessToken){
+        if (!accessToken) {
             let chatArray = this.state.chatArray;
             chatArray.push({
                 msg: msg,
@@ -924,7 +1085,7 @@ export class Bot extends Component {
                 clickable: false,
                 Multioption: false
             });
-                chatArray.push({
+            chatArray.push({
                 msg: 'Please login',
                 botMsg: true,
                 clickable: false,
@@ -932,29 +1093,37 @@ export class Bot extends Component {
             });
             this.setState({ chatArray: chatArray })
         }
-        else{
+        else {
             this.handleSendMsg(msg);
         }
     }
 
     handleSendMsg(msg) {
         if (msg) {
-            console.log('msg',msg);
+
+            let selectedQoption = this.state.selectedQoption
+
             if (msg.toUpperCase().trim() === "TOPIC") {
                 this.fetchTopic(msg)
             }
             //Call question difficulty levels
-            else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
+            // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
+            else if (msg.trim() === "Submit Topic") {
                 console.log('inside elseif loop')
-                this.fetchQuestionLevels(msg)
+                this.fetchQuestionLevels(this.state.selectedvalue);
             }
             //call Questions
-            else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
-                this.fetchQuestions(msg);
+
+            //else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
+            else if (msg.trim() === "Submit Level") {
+                //console.log('inside handlesend chat array',chatArray)
+                
+                this.fetchQuestions(this.state.selectedvalue);
             }
             //Check for answers
-            else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
-                this.CheckForCorrectAns(msg);
+            // else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
+            else if (msg.trim() === "Submit Option") {
+                this.CheckForCorrectAns(selectedQoption);
             }
             //When users click on next topic
             else if (msg.trim() === "Next Question") {
@@ -982,8 +1151,17 @@ export class Bot extends Component {
                 this.UploadAnswer(msg);
             }
             else if (msg.trim() == "Submit") {
+                let chatArray = this.state.chatArray;
+                
+                chatArray.push({
+                    msg: "Submit",
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray })
+                console.log('inside seleted multi',this.state.Checkedval)
                 this.checkMultiAns();
-                //this.CheckForCorrectAns(msg);
             }
             //For un wanted text
             else {
@@ -995,13 +1173,18 @@ export class Bot extends Component {
                     Multioption: false
                 });
                 chatArray.push({
-                    msg: 'Plase enter relevent message!',
+                    msg: 'Please enter relevent message!',
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
+                chatArray.push({
+                    msg: 'Topic',
                     botMsg: true,
                     clickable: false,
                     Multioption: false
                 });
                 this.setState({ chatArray: chatArray });
-                this.componentDidMount();
             }
         }
     }
@@ -1034,15 +1217,15 @@ export class Bot extends Component {
                     <Listening hidden={this.state.listening} />
                     <NaviBar className="NewChat" ></NaviBar>
 
-                    <MainDiv>
-                        <InfoDiv>
+                    <MainDiv className="chatWindow">
+                        <InfoDiv className="chatterDiv">
                             <InfoBox
                                 AnsweredQuestions={this.state.TotalCorrectedQuestions[0].AnsweredQuestions}
                                 TotalQuestions={this.state.TotalCorrectedQuestions[0].TotalQuestions}
                             />
                         </InfoDiv>
                         <ChatDiv>
-                        <header className="headers"><img src="/assets/logobot.png"width="40px" height="40px"></img>  ALA</header>
+                            <header className="headers"><img src="/assets/logobot.png" width="40px" height="40px"></img>  ALA</header>
                             <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
                             {this.state.isLoading && <LoadingDots></LoadingDots>}
                             <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>

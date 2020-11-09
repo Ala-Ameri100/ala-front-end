@@ -157,12 +157,12 @@ export const InfoBox = (props)=> {
                             </Card.Body>
                         </Card>
                         <br></br>
-                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        {/* <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>Stack Share</Card.Title>
                                 <Doughnut data={doughnutData} />
                             </Card.Body>
-                        </Card>
+                        </Card> */}
                         <br></br>
                         <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
@@ -173,12 +173,12 @@ export const InfoBox = (props)=> {
                             </Card.Body>
                         </Card>
                         <br></br>
-                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        {/* <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>User Sentiment</Card.Title>
                                 <Polar data={polarData} />
                             </Card.Body>
-                        </Card>
+                        </Card> */}
                     </CardDiv>
                 </MainDiv>
             </>

@@ -8,7 +8,7 @@ import { wait } from "@testing-library/react";
 const reload = () => window.location.reload();
 
 const LoginModal = (props) => {
-  const SERVER_URL = 'auth/signin';
+  const SERVER_URL = '/api/auth/signin';
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   let signInRequest = {};

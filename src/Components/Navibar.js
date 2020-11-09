@@ -71,7 +71,7 @@ export default class NaviBar extends Component {
                     }                   
  
                     <div className="upload-icon">                    
-                        <FaQuestionCircle className="faq-icon" size="1.5em" cursor="pointer" />
+                        {/* <FaQuestionCircle className="faq-icon" size="1.5em" cursor="pointer" /> */}
                         <FaInfoCircle className="fai-icon" size="1.5em" cursor="pointer" onClick={this.handleModalOpen} />
                     </div>
  

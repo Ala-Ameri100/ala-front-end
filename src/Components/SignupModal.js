@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Button, FormGroup, FormControl, Spinner } from "react-bootstrap";
 
 const SignupModal = (props) => {
-  const SERVER_URL = 'auth/signup'
+  const SERVER_URL = '/api/auth/signup'
   const [Username, setUsername] = useState("");
   const [Role, setRole] = useState('["mod","user"]');
   const [email, setEmail] = useState("");

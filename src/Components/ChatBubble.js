@@ -58,7 +58,8 @@ const Bubble = styled.div`
     border-radius: ${props => props.botMsg ? "0px 7px 7px 7px" : "7px 0px 7px 7px"};
     margin: 5px;
     align-self: ${props => props.botMsg ? "flex-start" : "flex-end"};
-    box-shadow: 0px 3px 5px ;
+    // box-shadow: 0px 2px 15px ;
+    box-shadow: 0px 3px 5px ; 
     p {
         padding: 5px;
         color: white;
@@ -87,10 +88,16 @@ function bubbleOP(props) {
 }
 
 function bubbleColor(props) {
-  if (props.clicks) {
+  if(props.IsQuestion){
+    return "#45cafc";
+  }
+  else if(props.Qoptions){
+    return "#000099"
+  }
+  else if (props.clicks) {
       return "#28a745";
   } else if(props.Multioption){
-      return "#28a745"
+      return "#e68a00"
   }
   else if (props.botMsg) {
       return "#0069d9";
@@ -124,7 +131,7 @@ export class ChatBubble extends React.Component{
       <Bubblediv botMsg={this.props.botMsg} className="divBub">
 
          <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/logobot.png`}></IMges>
-             <Bubble Multioption={this.props.Multioption} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() =>!this.props.options? this.props.handleClick(this.props.text):null} onChange={()=> this.props.options?this.props.handleCheck(this.props.text): null} >
+             <Bubble Qoptions={this.props.Qoptions} IsQuestion={this.props.IsQuestion} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() => this.props.handleClick(this.props.text)} >
               
               {/* <TypingBalls>
                   <span></span>
@@ -135,7 +142,7 @@ export class ChatBubble extends React.Component{
               {/* {this.props.Multioption ?
               <FormControlLabel
               control={
-                <Radio
+                <Checkbox
                   color="primary"
                 />
               }
@@ -144,9 +151,7 @@ export class ChatBubble extends React.Component{
             />: */}
               <p>{this.props.text}</p>
       </Bubble>
-      </Bubblediv>
-      
-
+      </Bubblediv>      
       )
   }
 }

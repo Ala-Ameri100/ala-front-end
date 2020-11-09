@@ -13,7 +13,7 @@ const DotWrapper = styled.div`
 `;
 
 const Dot = styled.div`
-  background-color: Blue;
+  background-color: #45cafc;
   border-radius: 50%;
   width: 10px;
   height: 10px;
