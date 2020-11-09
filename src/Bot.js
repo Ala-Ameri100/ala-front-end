@@ -134,6 +134,10 @@ export class Bot extends Component {
                     Multioption: false
                 });
             }
+            else{
+
+                this.fetchTopic('Topic');
+            }
             this.pushToChat(chatData);
         });
     }
@@ -159,6 +163,7 @@ export class Bot extends Component {
 
     //Upload answer to chatArray when user clicks on see answer
     UploadAnswer() {
+        let Correctoptions=[];
         let RowID;
         let count = 1;
         let AnsArray = [];
@@ -183,14 +188,15 @@ export class Bot extends Component {
                     console.log('AnsArray', AnsArray)
                 }
                 for (let i = 0; i < AnsArray.length; i++) {
-                    console.log('AnsArray[i].value', AnsArray[i].value);
-                    chatData.push({
-                        msg: CurrentQuestion[AnsArray[i].value].msg,
-                        botMsg: true,
-                        clickable: false,
-                        Multioption: false
-                    });
+                    Correctoptions.push(<form>{CurrentQuestion[AnsArray[i].value].msg}</form>);
+                    //console.log('AnsArray[i].value', AnsArray[i].value);
                 }
+                chatData.push({
+                    msg: Correctoptions,
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
                 chatData.push({
                     msg: "Next Question",
                     botMsg: true,
@@ -731,7 +737,8 @@ export class Bot extends Component {
             if (this.state.CurrentQuestion.length) {
                 console.log('currentQuestion inside multi ans',this.state.CurrentQuestion)
                 AnsKey = this.state.CurrentQuestion[0].AnsKey;
-                console.log('AnsKey',AnsKey)
+                console.log('AnsKey', AnsKey)
+                console.log('AnsKey type', typeof AnsKey)
                 currentRow = this.state.CurrentQuestion[0].key;
             }
             let Checkedval = this.state.Checkedval;
@@ -747,7 +754,7 @@ export class Bot extends Component {
             });
             console.log('checkAns', checkAns);
         }
-        if (checkAns == AnsKey) {
+        if (checkAns.length == AnsKey.length) {
             total2 = TotalCorrectedQuestions[0].AnsweredQuestions + 1;
             TotalCorrectedQuestions[0].AnsweredQuestions = total2;
             RowID = currentRow;
@@ -1050,13 +1057,7 @@ export class Bot extends Component {
 
                 });
             //Add selected topic to chatbox to display
-            const chatArray = this.state.chatArray;
-            chatArray.push({
-                msg: msg,
-                botMsg: false,
-                clickable: false,
-                Multioption: false
-            });
+           
 
             //await this.clear();
             //Resetting state objects
@@ -1069,8 +1070,8 @@ export class Bot extends Component {
             console.log('DBQuestions', this.state.DBQuestions);
             console.log('CurrentQuestion', this.state.CurrentQuestion);
             console.log('CurrentRowID', this.state.CurrentRowID);
-            this.setState({ chatArray: chatArray });
-            console.log('chatArray', chatArray)
+            //  this.setState({ chatArray: chatArray });
+            //console.log('chatArray', chatArray)
         }
     }
 
@@ -1104,7 +1105,16 @@ export class Bot extends Component {
             let selectedQoption = this.state.selectedQoption
 
             if (msg.toUpperCase().trim() === "TOPIC") {
-                this.fetchTopic(msg)
+                this.fetchTopic(msg);
+                const chatArray = this.state.chatArray;
+                chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                this.setState({chatArray:chatArray});
+                
             }
             //Call question difficulty levels
             // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
