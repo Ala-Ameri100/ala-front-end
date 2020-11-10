@@ -293,6 +293,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice1 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -302,6 +303,7 @@ export class Bot extends Component {
                                 value={1}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice1,
@@ -314,6 +316,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice2 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -324,6 +327,7 @@ export class Bot extends Component {
                                 onChange={currentComponent.selectedmulti}
                                 
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice2,
@@ -335,6 +339,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice3 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -344,6 +349,7 @@ export class Bot extends Component {
                                 value={3}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice3,
@@ -356,6 +362,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -365,6 +372,7 @@ export class Bot extends Component {
                                 value={4}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice4,
@@ -375,6 +383,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -384,6 +393,7 @@ export class Bot extends Component {
                                 value={5}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice5,
@@ -394,6 +404,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -403,6 +414,7 @@ export class Bot extends Component {
                                 value={6}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice6,
@@ -414,6 +426,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice7 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -423,6 +436,7 @@ export class Bot extends Component {
                                 value={7}
                                 onChange={currentComponent.selectedmulti}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice7,
@@ -447,6 +461,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice1 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -456,6 +471,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice1}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice1,
@@ -467,6 +483,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice2 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -476,6 +493,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice2}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice2,
@@ -486,6 +504,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice3 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -495,6 +514,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice3}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice3,
@@ -507,6 +527,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -516,6 +537,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice4}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice4,
@@ -526,6 +548,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -535,6 +558,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice5}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice5,
@@ -545,6 +569,7 @@ export class Bot extends Component {
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -554,6 +579,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice6}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice6,
@@ -565,6 +591,7 @@ export class Bot extends Component {
 
                     if (DBQuestions[key].answerChoice7 !== "") {
                         CurQuestionarr.push(
+                            <form>
                             <FormControlLabel
                                 control={
                                     <Radio
@@ -574,6 +601,7 @@ export class Bot extends Component {
                                 value={DBQuestions[key].answerChoice7}
                                 onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
                             />
+                            </form>
                         );
                         CurrentQuestion.push({
                             msg: DBQuestions[key].answerChoice7,
