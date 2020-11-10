@@ -138,7 +138,7 @@ export class Bot extends Component {
                     Multioption: false
                 });
             }
-            else{
+            else {
 
                 this.fetchTopic('Topic');
             }
@@ -157,17 +157,17 @@ export class Bot extends Component {
         // console.log('selected option',this.state.)
     }
 
-    selectedmulti(e){
-         let Checkedval = this.state.Checkedval;
-         Checkedval.push({
-             val: e.target.value
-         });      
-         this.setState({ Checkedval: Checkedval });
+    selectedmulti(e) {
+        let Checkedval = this.state.Checkedval;
+        Checkedval.push({
+            val: e.target.value
+        });
+        this.setState({ Checkedval: Checkedval });
     }
 
     //Upload answer to chatArray when user clicks on see answer
     UploadAnswer() {
-        let Correctoptions=[];
+        let Correctoptions = [];
         let RowID;
         let count = 1;
         let AnsArray = [];
@@ -279,7 +279,7 @@ export class Bot extends Component {
                 //         IsQuestion:true
                 //     });
                 // }
-
+                currentComponent.setState({ Checkedval: [] });
                 if (DBQuestions[key].MultipleAns == true) {
 
                     if (DBQuestions[key].questionText !== "") {
@@ -287,22 +287,22 @@ export class Bot extends Component {
                             <form>
                                 {DBQuestions[key].questionText}
                             </form>
-                                
+
                         );
                     }
 
                     if (DBQuestions[key].answerChoice1 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice1}
-                                value={1}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice1}
+                                    value={1}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -311,22 +311,22 @@ export class Bot extends Component {
                             choice: 1,
                             AnsKey: DBQuestions[key].correctAnswer,
                         });
-        
+
                     }
 
                     if (DBQuestions[key].answerChoice2 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice2}
-                                value={2}
-                                onChange={currentComponent.selectedmulti}
-                                
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice2}
+                                    value={2}
+                                    onChange={currentComponent.selectedmulti}
+
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -335,20 +335,20 @@ export class Bot extends Component {
                             choice: 2,
                             AnsKey: DBQuestions[key].correctAnswer,
                         });
-        
+
                     }
                     if (DBQuestions[key].answerChoice3 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice3}
-                                value={3}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice3}
+                                    value={3}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -363,15 +363,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice4}
-                                value={4}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice4}
+                                    value={4}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -384,15 +384,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice5 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice5}
-                                value={5}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice5}
+                                    value={5}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -405,15 +405,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice6 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice6}
-                                value={6}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice6}
+                                    value={6}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -427,15 +427,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice7 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice7}
-                                value={7}
-                                onChange={currentComponent.selectedmulti}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice7}
+                                    value={7}
+                                    onChange={currentComponent.selectedmulti}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -447,30 +447,29 @@ export class Bot extends Component {
                     }
 
                 }
-                else 
-                {
+                else {
+                    currentComponent.setState({ selectedQoption: '' });
+
                     if (DBQuestions[key].questionText !== "") {
                         CurQuestionarr.push(
                             <form>
                                 {DBQuestions[key].questionText}
                             </form>
-                                
                         );
                     }
-
 
                     if (DBQuestions[key].answerChoice1 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice1}
-                                value={DBQuestions[key].answerChoice1}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice1}
+                                    value={DBQuestions[key].answerChoice1}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -484,15 +483,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice2 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice2}
-                                value={DBQuestions[key].answerChoice2}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice2}
+                                    value={DBQuestions[key].answerChoice2}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -505,15 +504,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice3 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice3}
-                                value={DBQuestions[key].answerChoice3}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice3}
+                                    value={DBQuestions[key].answerChoice3}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -528,15 +527,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice4}
-                                value={DBQuestions[key].answerChoice4}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice4}
+                                    value={DBQuestions[key].answerChoice4}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -549,15 +548,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice5 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice5}
-                                value={DBQuestions[key].answerChoice5}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice5}
+                                    value={DBQuestions[key].answerChoice5}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -570,15 +569,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice6 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice6}
-                                value={DBQuestions[key].answerChoice6}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice6}
+                                    value={DBQuestions[key].answerChoice6}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -592,15 +591,15 @@ export class Bot extends Component {
                     if (DBQuestions[key].answerChoice7 !== "") {
                         CurQuestionarr.push(
                             <form>
-                            <FormControlLabel
-                                control={
-                                    <Radio
-                                    />
-                                }
-                                label={DBQuestions[key].answerChoice7}
-                                value={DBQuestions[key].answerChoice7}
-                                onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
-                            />
+                                <FormControlLabel
+                                    control={
+                                        <Radio
+                                        />
+                                    }
+                                    label={DBQuestions[key].answerChoice7}
+                                    value={DBQuestions[key].answerChoice7}
+                                    onChange={e => currentComponent.setState({ selectedQoption: e.target.value })}
+                                />
                             </form>
                         );
                         CurrentQuestion.push({
@@ -612,7 +611,7 @@ export class Bot extends Component {
                     }
                 }
 
-               // currentComponent.setState({Checkedval:Checkedval})
+                // currentComponent.setState({Checkedval:Checkedval})
 
                 chatData.push({
                     msg: CurQuestionarr,
@@ -626,7 +625,7 @@ export class Bot extends Component {
                     Multioption: DBQuestions[key].MultipleAns ? true : false
                 });
 
-                
+
                 if (DBQuestions[key].MultipleAns == true) {
                     chatData.push({
                         msg: "Send",
@@ -703,75 +702,152 @@ export class Bot extends Component {
     }
 
     CheckForCorrectAns(msg) {
-        if (this.state.CurrentQuestion.length) {
-            let RowID;
-            const res = this.CheckAnswer(msg);
-            console.log('result is', res);
-            const answer_array = res.split(",");
-            console.log('answer_array', answer_array)
-            const choice = answer_array[0];
+        if (msg !== "") {
+            if (this.state.CurrentQuestion.length) {
+                let RowID;
+                const res = this.CheckAnswer(msg);
+                console.log('result is', res);
+                const answer_array = res.split(",");
+                console.log('answer_array', answer_array)
+                const choice = answer_array[0];
 
-            if (answer_array[1] !== "undefined") {
-                RowID = answer_array[1];
-            }
-            else {
-                console.log('It isundefined!');
-                RowID = 0;
-            }
-            console.log('choice,RowID', choice, RowID);
-            this.setState({ CurrentRowID: [] });
-            let CurrentRowID = this.state.CurrentRowID;
-            CurrentRowID.push({
-                rowID: RowID
-            });
-            this.setState({ CurrentRowID: CurrentRowID });
-            console.log('CurrentRowID', CurrentRowID)
-            if (choice == 1) {
-                const chatArray = this.state.chatArray.slice();
-                chatArray.push({
-                    msg: msg,
-                    botMsg: false,
-                    clickable: false,
-                    Multioption: false
+                if (answer_array[1] !== "undefined") {
+                    RowID = answer_array[1];
+                }
+                else {
+                    console.log('It isundefined!');
+                    RowID = 0;
+                }
+                console.log('choice,RowID', choice, RowID);
+                this.setState({ CurrentRowID: [] });
+                let CurrentRowID = this.state.CurrentRowID;
+                CurrentRowID.push({
+                    rowID: RowID
                 });
-                chatArray.push({
-                msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
-                    botMsg: true,
-                    clickable: false,
-                    Multioption: false
-                });
-                chatArray.push({
-                    msg: 'Next Question',
-                    botMsg: true,
-                    clickable: true,
-                    Multioption: false
-                });
-                this.setState({ chatArray: chatArray });
-            }
-            else {
-                const chatArray = this.state.chatArray.slice();
-                chatArray.push({
-                    msg: msg,
-                    botMsg: false,
-                    clickable: false,
-                    Multioption: false
-                });
-                chatArray.push({
-                    msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
-                    botMsg: true,
-                    clickable: false,
-                    Multioption: false
-                });
-                chatArray.push({
-                    msg: 'See Answer',
-                    botMsg: true,
-                    clickable: true,
-                    Multioption: false
-                });
-                this.setState({ chatArray: chatArray });
+                this.setState({ CurrentRowID: CurrentRowID });
+                console.log('CurrentRowID', CurrentRowID)
+                if (choice == 1) {
+                    const chatArray = this.state.chatArray.slice();
+                    chatArray.push({
+                        msg: msg,
+                        botMsg: false,
+                        clickable: false,
+                        Multioption: false
+                    });
+                    chatArray.push({
+                        msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
+                        botMsg: true,
+                        clickable: false,
+                        Multioption: false
+                    });
+                    chatArray.push({
+                        msg: 'Next Question',
+                        botMsg: true,
+                        clickable: true,
+                        Multioption: false
+                    });
+                    this.setState({ chatArray: chatArray });
+                }
+                else {
+                    const chatArray = this.state.chatArray.slice();
+
+                    chatArray.push({
+                        msg: msg,
+                        botMsg: false,
+                        clickable: false,
+                        Multioption: false
+                    });
+                    chatArray.push({
+                        msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
+                        botMsg: true,
+                        clickable: false,
+                        Multioption: false
+                    });
+                    chatArray.push({
+                        msg: 'See Answer',
+                        botMsg: true,
+                        clickable: true,
+                        Multioption: false
+                    });
+                    this.setState({ chatArray: chatArray });
+                }
             }
         }
     }
+
+    // checkMultiAns() {
+    //     let TotalCorrectedQuestions = this.state.TotalCorrectedQuestions;
+    //     let total2;
+    //     let RowID;
+    //     let currentRow;
+    //     let AnsKey;
+    //     let checkAns = "";
+    //     const chatArray = this.state.chatArray.slice();
+    //     if (this.state.Checkedval.length) {
+    //         if (this.state.CurrentQuestion.length) {
+    //             console.log('currentQuestion inside multi ans',this.state.CurrentQuestion)
+    //             AnsKey = this.state.CurrentQuestion[0].AnsKey;
+    //             console.log('AnsKey', AnsKey)
+    //             console.log('AnsKey type', typeof AnsKey)
+    //             currentRow = this.state.CurrentQuestion[0].key;
+    //         }
+    //         let Checkedval = this.state.Checkedval;
+    //         console.log('checkMultiAns', Checkedval)
+    //         Object.keys(Checkedval).map(key => {
+    //             console.log('Checkedval[key].val', Checkedval[key].val);
+    //             if (AnsKey.includes(Checkedval[key].val)) {
+    //                 checkAns = checkAns + Checkedval[key].val
+    //             }
+    //             else {
+    //                 checkAns = checkAns + "0"
+    //             }
+    //         });
+    //         console.log('checkAns', checkAns);
+    //     }
+    //     else{
+
+    //     }
+    //     if (checkAns.length == AnsKey.length) {
+    //         total2 = TotalCorrectedQuestions[0].AnsweredQuestions + 1;
+    //         TotalCorrectedQuestions[0].AnsweredQuestions = total2;
+    //         RowID = currentRow;
+    //         chatArray.push({
+    //             msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
+    //             botMsg: true,
+    //             clickable: false,
+    //             Multioption: false
+    //         });
+    //         chatArray.push({
+    //             msg: 'Next Question',
+    //             botMsg: true,
+    //             clickable: true,
+    //             Multioption: false
+    //         });
+    //         this.setState({ chatArray: chatArray });
+    //     }
+    //     else {
+    //         RowID = currentRow;
+    //         chatArray.push({
+    //             msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
+    //             botMsg: true,
+    //             clickable: false,
+    //             Multioption: false
+    //         });
+    //         chatArray.push({
+    //             msg: 'See Answer',
+    //             botMsg: true,
+    //             clickable: true,
+    //             Multioption: false
+    //         });
+    //         this.setState({ chatArray: chatArray });
+    //     }
+    //     let CurrentRowID = this.state.CurrentRowID;
+    //     CurrentRowID.push({
+    //         rowID: RowID
+    //     });
+    //     this.setState({ CurrentRowID: CurrentRowID });
+    //     console.log('CurrentRowID', CurrentRowID)
+    // }
 
     checkMultiAns() {
         let TotalCorrectedQuestions = this.state.TotalCorrectedQuestions;
@@ -783,7 +859,7 @@ export class Bot extends Component {
         const chatArray = this.state.chatArray.slice();
         if (this.state.Checkedval.length) {
             if (this.state.CurrentQuestion.length) {
-                console.log('currentQuestion inside multi ans',this.state.CurrentQuestion)
+                console.log('currentQuestion inside multi ans', this.state.CurrentQuestion)
                 AnsKey = this.state.CurrentQuestion[0].AnsKey;
                 console.log('AnsKey', AnsKey)
                 console.log('AnsKey type', typeof AnsKey)
@@ -801,48 +877,60 @@ export class Bot extends Component {
                 }
             });
             console.log('checkAns', checkAns);
+
+            if (checkAns.length == AnsKey.length) {
+                total2 = TotalCorrectedQuestions[0].AnsweredQuestions + 1;
+                TotalCorrectedQuestions[0].AnsweredQuestions = total2;
+                RowID = currentRow;
+                chatArray.push({
+                    msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
+                chatArray.push({
+                    msg: 'Next Question',
+                    botMsg: true,
+                    clickable: true,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray });
+            }
+            else {
+                RowID = currentRow;
+                chatArray.push({
+                    msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
+                    botMsg: true,
+                    clickable: false,
+                    Multioption: false
+                });
+                chatArray.push({
+                    msg: 'See Answer',
+                    botMsg: true,
+                    clickable: true,
+                    Multioption: false
+                });
+                this.setState({ chatArray: chatArray });
+            }
+            let CurrentRowID = this.state.CurrentRowID;
+            CurrentRowID.push({
+                rowID: RowID
+            });
+            this.setState({ CurrentRowID: CurrentRowID });
+            console.log('CurrentRowID', CurrentRowID)
         }
-        if (checkAns.length == AnsKey.length) {
-            total2 = TotalCorrectedQuestions[0].AnsweredQuestions + 1;
-            TotalCorrectedQuestions[0].AnsweredQuestions = total2;
-            RowID = currentRow;
-            chatArray.push({
-                msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
-                botMsg: true,
-                clickable: false,
-                Multioption: false
-            });
-            chatArray.push({
-                msg: 'Next Question',
-                botMsg: true,
-                clickable: true,
-                Multioption: false
-            });
-            this.setState({ chatArray: chatArray });
-        }
-        else {
-            RowID = currentRow;
-            chatArray.push({
-                msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
-                botMsg: true,
-                clickable: false,
-                Multioption: false
-            });
-            chatArray.push({
-                msg: 'See Answer',
-                botMsg: true,
-                clickable: true,
-                Multioption: false
-            });
-            this.setState({ chatArray: chatArray });
-        }
-        let CurrentRowID = this.state.CurrentRowID;
-        CurrentRowID.push({
-            rowID: RowID
-        });
-        this.setState({ CurrentRowID: CurrentRowID });
-        console.log('CurrentRowID', CurrentRowID)
+        // else {
+        //     chatArray.push({
+        //         msg: 'Please select options',
+        //         botMsg: true,
+        //         clickable: false,
+        //         Multioption: false
+        //     });
+        //     this.setState({ chatArray: chatArray });
+        // }
+
     }
+
 
     fetchQuestions(msg) {
         if (msg) {
@@ -947,9 +1035,9 @@ export class Bot extends Component {
                     console.log('Difflevels', data)
                     let chatData = this.state.chatArray
                     temparr.push(
-                    "Please select difficulty levels"
+                        "Please select difficulty levels"
                     );
-                    this.setState({ selectedvalue: data[0] })
+                    this.setState({ selectedvalue: '' })
                     console.log('initial selection : ', this.state.selectedvalue)
                     {
                         temparr.push()
@@ -1056,10 +1144,12 @@ export class Bot extends Component {
                     console.log('topics', data)
                     let chatData = this.state.chatArray
                     temptoparr.push(
-                         "Please select topic"
+                        "Please select topic"
                     );
 
                     let thistopic = this
+                    this.setState({ selectedvalue: '' });
+
                     Object.keys(data).forEach(function (key) {
                         //console.log("key-->"+key)
                         if (data[key].topic != "") {
@@ -1100,7 +1190,7 @@ export class Bot extends Component {
 
                 });
             //Add selected topic to chatbox to display
-           
+
 
             //await this.clear();
             //Resetting state objects
@@ -1146,7 +1236,7 @@ export class Bot extends Component {
         if (msg) {
 
             let selectedQoption = this.state.selectedQoption
-
+            console.log("check sel val inside handle send", selectedQoption)
             if (msg.toUpperCase().trim() === "TOPIC") {
                 this.fetchTopic(msg);
                 const chatArray = this.state.chatArray;
@@ -1156,8 +1246,8 @@ export class Bot extends Component {
                     clickable: false,
                     Multioption: false
                 });
-                this.setState({chatArray:chatArray});
-                
+                this.setState({ chatArray: chatArray });
+
             }
             //Call question difficulty levels
             // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
@@ -1170,14 +1260,30 @@ export class Bot extends Component {
             //else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
             else if (msg.trim() === "Send Level") {
                 //console.log('inside handlesend chat array',chatArray)
-                
+
                 this.fetchQuestions(this.state.selectedvalue);
             }
             //Check for answers
             // else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
             else if (msg.trim() === "Send Option") {
-                this.CheckForCorrectAns(selectedQoption);
+                // if (selectedQoption ==='') {
+
+
+                //     let chatArray = this.state.chatArray;
+                //     chatArray.push({
+                //         msg: 'Please choose any one option',
+                //         botMsg: true,
+                //         clickable: false,
+                //         Multioption: false
+                //     });
+                //     this.setState({ chatArray: chatArray })
+                // }
+
+                // else {
+                    this.CheckForCorrectAns(selectedQoption);
+             //   }
             }
+
             //When users click on next topic
             else if (msg.trim() === "Next Question") {
                 let chatArray = this.state.chatArray;
@@ -1205,15 +1311,17 @@ export class Bot extends Component {
             }
             else if (msg.trim() == "Send") {
                 let chatArray = this.state.chatArray;
-                
-                chatArray.push({
-                    msg: "Send",
-                    botMsg: false,
-                    clickable: false,
-                    Multioption: false
-                });
-                this.setState({ chatArray: chatArray })
-                console.log('inside seleted multi',this.state.Checkedval)
+if(this.state.Checkedval !=''){
+    chatArray.push({
+        msg: "Send",
+        botMsg: false,
+        clickable: false,
+        Multioption: false
+    });
+    this.setState({ chatArray: chatArray })
+}
+              
+                console.log('inside seleted multi', this.state.Checkedval)
                 this.checkMultiAns();
             }
             //For un wanted text
@@ -1284,7 +1392,6 @@ export class Bot extends Component {
                         </ChatDiv>
                     </MainDiv>
                 </ApplicationContext.Provider>
-
             </>
         )
     }
