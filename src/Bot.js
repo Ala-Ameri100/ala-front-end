@@ -14,11 +14,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Checkbox, useIsFocusVisible, Radio } from '@material-ui/core';
 
 const bounceInAnimation = keyframes`${fadeInUp}`;
-const MainDiv = styled.div`
-    display: flex;
-    height: calc(100vh - 58px);
-    padding:30px;
-`;
 
 const Listening = styled.div`
     display : block;
@@ -36,21 +31,27 @@ const Listening = styled.div`
     top : 0;
 `;
 
+const MainDiv = styled.div`
+    display: flex;
+    height: calc(100vh - 58px);
+    padding-right:30px;
+    padding-left:30px;
+   
+`;
+
+
 const ChatDiv = styled.div`
     // background-color:#A9A9A9;
-    display: flex;
-    flex-direction: column;
-    width: 35%;
-    margin-left:30px
+    
     border-radius: 0.5rem;
     animation: 1.0s ${bounceInAnimation};
     transition-timing-function: linear;
     box-shadow: 0px 3px 15px ;
+    margin : 20px
     // background: linear-gradient(#abbaab, #ffffff);
-    header{
-        
+    header{        
         width:100%;
-        height:15%;
+        //height:15%;
         position:relative;
         background-image: linear-gradient(to right, #303f9f,#45cafc);
         border-top-left-radius:10px;
@@ -68,6 +69,8 @@ const InfoDiv = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-top:15px;
+    padding-bottom:15px;
 `;
 
 
@@ -976,7 +979,6 @@ export class Bot extends Component {
         }
     }
 
-
     //Fetch topic from db when user clicks on topic
     fetchTopic(msg) {
 
@@ -1199,7 +1201,6 @@ export class Bot extends Component {
         }
     }
 
-
     handleCheck(val) {
         console.log('checked box is', val);
         let Checkedval = this.state.Checkedval;
@@ -1227,18 +1228,18 @@ export class Bot extends Component {
                     <Listening hidden={this.state.listening} />
                     <NaviBar className="NewChat" ></NaviBar>
 
-                    <MainDiv className="chatWindow">
-                        <InfoDiv className="chatterDiv">
+                    <MainDiv className="maindivCls">
+                        <InfoDiv className="infodivcls">
                             <InfoBox
                                 AnsweredQuestions={this.state.TotalCorrectedQuestions[0].AnsweredQuestions}
                                 TotalQuestions={this.state.TotalCorrectedQuestions[0].TotalQuestions}
                             />
                         </InfoDiv>
-                        <ChatDiv>
+                        <ChatDiv className="chatdivcls">
                             <header className="headers"><img src="/assets/logobot.png" width="40px" height="40px"></img>  ALA</header>
-                            <ChatBox chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
+                            <ChatBox className="chatboxcls" chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
                             {this.state.isLoading && <LoadingDots></LoadingDots>}
-                            <MsgBox onSend={(msg) => this.handleSend(msg)}></MsgBox>
+                            <MsgBox className="msgboxcls" onSend={(msg) => this.handleSend(msg)}></MsgBox>
                         </ChatDiv>
                     </MainDiv>
                 </ApplicationContext.Provider>

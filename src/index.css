@@ -86,15 +86,34 @@ code {
   height:50px;
   width:70px;
 }
-@media all   and (max-width: 500px){
-  .chatWindow {
+
+.chatdivcls
+{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    margin-left:30px
+}
+
+@media all and (max-width: 500px){
+  .maindivCls {
     flex-direction:column;
   }
-  .chatWindow.chatterDiv{
+  .maindivCls.infodivcls{
     flex-direction: column;
     width: 100%;
     margin-right: 0%;
-
+  }
+  .chatdivcls{
+    width: 90%;
+    margin-right: 5%;
+    height: 1000px;
+  }
+  .chatdivcls.headers{
+  height: 5%;
+  }
+  .chatdivcls.msgboxcls{
+  height: 20px;
   }
 }
 

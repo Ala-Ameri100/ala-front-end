@@ -7,7 +7,7 @@ import { ApplicationContext } from '../Context';
 
 const Msg = styled.div`
     display: flex;
-    min-height: 15%;
+   //min-height: 15%;
     width: 100%;
     /* min-width: 150px;
     max-width: 500px; */
