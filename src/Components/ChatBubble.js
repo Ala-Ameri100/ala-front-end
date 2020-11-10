@@ -88,11 +88,8 @@ function bubbleOP(props) {
 }
 
 function bubbleColor(props) {
-  if(props.IsQuestion){
-    return "#45cafc";
-  }
-  else if(props.Qoptions){
-    return "#000099"
+  if(props.Qoptions){
+    return "#0069d9"
   }
   else if (props.clicks) {
       return "#28a745";

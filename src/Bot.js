@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { useHistory } from "react-router-dom";
 //import styled from 'styled-components';
+import { FaCaretRight, FaGrinBeam, FaFrown } from 'react-icons/fa';
 import NaviBar from './Components/Navibar';
 import { ChatBox } from './Components/ChatBox';
 import { MsgBox } from './Components/MsgBox';
@@ -191,7 +192,7 @@ export class Bot extends Component {
                     console.log('AnsArray', AnsArray)
                 }
                 for (let i = 0; i < AnsArray.length; i++) {
-                    Correctoptions.push(<form>{CurrentQuestion[AnsArray[i].value].msg}</form>);
+                    Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);
                     //console.log('AnsArray[i].value', AnsArray[i].value);
                 }
                 chatData.push({
@@ -269,17 +270,26 @@ export class Bot extends Component {
 
                 // let selectedQoption = this.state.selectedQoption;
 
-                if (DBQuestions[key].questionText !== "") {
-                    console.log('DBQuestions[key].questionText', DBQuestions[key].questionText)
-                    chatData.push({
-                        msg: DBQuestions[key].questionText,
-                        botMsg: true,
-                        clickable: false,
-                        IsQuestion:true
-                    });
-                }
+                // if (DBQuestions[key].questionText !== "") {
+                //     console.log('DBQuestions[key].questionText', DBQuestions[key].questionText)
+                //     chatData.push({
+                //         msg: DBQuestions[key].questionText,
+                //         botMsg: true,
+                //         clickable: false,
+                //         IsQuestion:true
+                //     });
+                // }
 
                 if (DBQuestions[key].MultipleAns == true) {
+
+                    if (DBQuestions[key].questionText !== "") {
+                        CurQuestionarr.push(
+                            <form>
+                                {DBQuestions[key].questionText}
+                            </form>
+                                
+                        );
+                    }
 
                     if (DBQuestions[key].answerChoice1 !== "") {
                         CurQuestionarr.push(
@@ -425,7 +435,14 @@ export class Bot extends Component {
                 }
                 else 
                 {
-
+                    if (DBQuestions[key].questionText !== "") {
+                        CurQuestionarr.push(
+                            <form>
+                                {DBQuestions[key].questionText}
+                            </form>
+                                
+                        );
+                    }
 
 
                     if (DBQuestions[key].answerChoice1 !== "") {
@@ -584,14 +601,14 @@ export class Bot extends Component {
                 
                 if (DBQuestions[key].MultipleAns == true) {
                     chatData.push({
-                        msg: "Submit",
+                        msg: "Send",
                         botMsg: true,
                         clickable: true
                     });
                 }
                 else {
                     chatData.push({
-                        msg: "Submit Option",
+                        msg: "Send Option",
                         botMsg: true,
                         clickable: true
                     });
@@ -690,7 +707,7 @@ export class Bot extends Component {
                     Multioption: false
                 });
                 chatArray.push({
-                    msg: 'Right Answer',
+                msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
                     botMsg: true,
                     clickable: false,
                     Multioption: false
@@ -712,7 +729,7 @@ export class Bot extends Component {
                     Multioption: false
                 });
                 chatArray.push({
-                    msg: 'Wrong Answer',
+                    msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
                     botMsg: true,
                     clickable: false,
                     Multioption: false
@@ -762,7 +779,7 @@ export class Bot extends Component {
             TotalCorrectedQuestions[0].AnsweredQuestions = total2;
             RowID = currentRow;
             chatArray.push({
-                msg: 'Right Answer',
+                msg: <form><FaGrinBeam size="30px"></FaGrinBeam>{' '}Right Answer</form>,
                 botMsg: true,
                 clickable: false,
                 Multioption: false
@@ -778,7 +795,7 @@ export class Bot extends Component {
         else {
             RowID = currentRow;
             chatArray.push({
-                msg: 'Wrong Answer',
+                msg: <form><FaFrown size="30px"></FaFrown>{' '}Wrong Answer</form>,
                 botMsg: true,
                 clickable: false,
                 Multioption: false
@@ -901,11 +918,9 @@ export class Bot extends Component {
 
                     console.log('Difflevels', data)
                     let chatData = this.state.chatArray
-                    chatData.push({
-                        msg: "Please select difficulty levels",
-                        botMsg: true,
-                        clickable: false
-                    });
+                    temparr.push(
+                    "Please select difficulty levels"
+                    );
                     this.setState({ selectedvalue: data[0] })
                     console.log('initial selection : ', this.state.selectedvalue)
                     {
@@ -949,7 +964,7 @@ export class Bot extends Component {
                         //choice: 1
                     })
                     chatData.push({
-                        msg: "Submit Level",
+                        msg: "Send Level",
                         botMsg: true,
                         clickable: true,
                         Qlevels: true,
@@ -1012,11 +1027,9 @@ export class Bot extends Component {
 
                     console.log('topics', data)
                     let chatData = this.state.chatArray
-                    chatData.push({
-                        msg: "Please select topic",
-                        botMsg: true,
-                        clickable: false
-                    });
+                    temptoparr.push(
+                         "Please select topic"
+                    );
 
                     let thistopic = this
                     Object.keys(data).forEach(function (key) {
@@ -1048,7 +1061,7 @@ export class Bot extends Component {
 
 
                     chatData.push({
-                        msg: "Submit Topic",
+                        msg: "Send Topic",
                         botMsg: true,//Msg is from bot
                         clickable: true, //Make bubble clickable
                         Topic: true, //Identify the pushed text is topic
@@ -1120,21 +1133,21 @@ export class Bot extends Component {
             }
             //Call question difficulty levels
             // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
-            else if (msg.trim() === "Submit Topic") {
+            else if (msg.trim() === "Send Topic") {
                 console.log('inside elseif loop')
                 this.fetchQuestionLevels(this.state.selectedvalue);
             }
             //call Questions
 
             //else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
-            else if (msg.trim() === "Submit Level") {
+            else if (msg.trim() === "Send Level") {
                 //console.log('inside handlesend chat array',chatArray)
                 
                 this.fetchQuestions(this.state.selectedvalue);
             }
             //Check for answers
             // else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
-            else if (msg.trim() === "Submit Option") {
+            else if (msg.trim() === "Send Option") {
                 this.CheckForCorrectAns(selectedQoption);
             }
             //When users click on next topic
@@ -1162,11 +1175,11 @@ export class Bot extends Component {
                 this.setState({ chatArray: chatArray })
                 this.UploadAnswer(msg);
             }
-            else if (msg.trim() == "Submit") {
+            else if (msg.trim() == "Send") {
                 let chatArray = this.state.chatArray;
                 
                 chatArray.push({
-                    msg: "Submit",
+                    msg: "Send",
                     botMsg: false,
                     clickable: false,
                     Multioption: false

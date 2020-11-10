@@ -33,7 +33,7 @@ code {
   box-shadow: 0px 5px 5px  grey;
 }
 .login-nav{
-  background-color: #1c92d2;
+  background-image: linear-gradient(to right, #303f9f,#45cafc);
   color:white;
 }
  
@@ -96,6 +96,9 @@ code {
 }
 
 @media all and (max-width: 500px){
+  .ScorecardDiv{
+      width: 100% !important;
+  }
   .maindivCls {
     flex-direction:column;
   }

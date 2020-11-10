@@ -147,10 +147,10 @@ export const InfoBox = (props)=> {
                 </Row> */}
                 <MainDiv>
                     <CardDiv>
-                        <Card style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        <Card className="ScorecardDiv" style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
                                 <Card.Title>Score board</Card.Title>
-                                <ReactStoreIndicator
+                                <ReactStoreIndicator  
                                     value={props.AnsweredQuestions}
                                     maxValue={props.TotalQuestions}
                                 />
@@ -164,11 +164,11 @@ export const InfoBox = (props)=> {
                             </Card.Body>
                         </Card> */}
                         <br></br>
-                        <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        <Card className="ScorecardDiv" style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body>
-                                <Card.Title>HANA EDGE</Card.Title>
-                                <div style={{ "display": "flex", "justifyContent": "center" }}>
-                                    <iframe title="hanaEdge" width="560" height="315" src="https://www.youtube-nocookie.com/embed/v0wiWJETQVw" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                <Card.Title>PEOPLE AT AMERI100</Card.Title>
+                                <div  style={{ "display": "flex", "justifyContent": "center" }}>
+                                <iframe  width="560" height="315" src="https://www.youtube.com/embed/Nwsmif3Ttkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                             </Card.Body>
                         </Card>
