@@ -632,6 +632,8 @@ export class Bot extends Component {
                         botMsg: true,
                         clickable: true
                     });
+
+
                 }
                 else {
                     chatData.push({
@@ -872,8 +874,9 @@ export class Bot extends Component {
                 if (AnsKey.includes(Checkedval[key].val)) {
                     checkAns = checkAns + Checkedval[key].val
                 }
-                else {
-                    checkAns = checkAns + "0"
+                else 
+                {
+                    checkAns = checkAns;
                 }
             });
             console.log('checkAns', checkAns);
@@ -1311,15 +1314,15 @@ export class Bot extends Component {
             }
             else if (msg.trim() == "Send") {
                 let chatArray = this.state.chatArray;
-if(this.state.Checkedval !=''){
+ if(this.state.Checkedval !=''){
     chatArray.push({
         msg: "Send",
-        botMsg: false,
-        clickable: false,
-        Multioption: false
-    });
+       botMsg: false,
+       clickable: false,
+      Multioption: false
+});
     this.setState({ chatArray: chatArray })
-}
+ }
               
                 console.log('inside seleted multi', this.state.Checkedval)
                 this.checkMultiAns();
