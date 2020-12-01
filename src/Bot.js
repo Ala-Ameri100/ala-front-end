@@ -1452,17 +1452,17 @@ export class Bot extends Component {
                     Multioption: false
                 });
                 chatArray.push({
-                    msg: 'Please enter relevent message!',
+                    msg: 'Sorry I did not understand your input. Please refer Info tab!',
                     botMsg: true,
                     clickable: false,
                     Multioption: false
                 });
-                chatArray.push({
-                    msg: 'Topic',
-                    botMsg: true,
-                    clickable: false,
-                    Multioption: false
-                });
+                // chatArray.push({
+                //     msg: 'Topic',
+                //     botMsg: true,
+                //     clickable: false,
+                //     Multioption: false
+                // });
                 this.setState({ chatArray: chatArray });
             }
         }

@@ -148,9 +148,9 @@ export const InfoBox = (props)=> {
                 <MainDiv>
                     <CardDiv>
                         <Card className="ScorecardDiv" style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
-                            <Card.Body>
+                            <Card.Body className="scoreArch">
                                 <Card.Title>Score board</Card.Title>
-                                <ReactStoreIndicator  
+                                 <ReactStoreIndicator  
                                     value={props.AnsweredQuestions}
                                     maxValue={props.TotalQuestions}
                                 />
