@@ -102,22 +102,27 @@ code {
   .maindivCls {
     flex-direction:column;
   }
+
   .maindivCls.infodivcls{
     flex-direction: column;
     width: 100%;
     margin-right: 0%;
   }
+
   .chatdivcls{
     width: 90%;
     margin-right: 5%;
-    height: 1000px;
+    height: 650px;
   }
+
   .chatdivcls.headers{
   height: 5%;
   }
+
   .chatdivcls.msgboxcls{
   height: 20px;
   }
+
 }
 
 @media all and (min-width: 480px) {

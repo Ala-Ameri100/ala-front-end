@@ -12,7 +12,8 @@ import { fadeInUp } from 'react-animations';
 import LoginModal from './Components/LoginModal';
 import LoadingDots from './Components/LoadindDots';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Checkbox, useIsFocusVisible, Radio } from '@material-ui/core';
+import { Checkbox, useIsFocusVisible, Radio, RadioGroup } from '@material-ui/core';
+
 
 const bounceInAnimation = keyframes`${fadeInUp}`;
 
@@ -43,7 +44,8 @@ const MainDiv = styled.div`
 
 const ChatDiv = styled.div`
     // background-color:#A9A9A9;
-    
+    //resize: both;
+    //overflow: auto;
     border-radius: 0.5rem;
     animation: 1.0s ${bounceInAnimation};
     transition-timing-function: linear;
@@ -108,7 +110,8 @@ export class Bot extends Component {
             Object.keys(data).forEach(function (key) {
 
                 console.log('inside compdidmount', atkon)
-                if (atkon !== "") {
+                // if (atkon !== "") 
+                // {
                     console.log('inside if')
 
                     chatData.push({
@@ -117,29 +120,29 @@ export class Bot extends Component {
                         botMsg: true,
                         Multioption: false
                     });
-                }
-                else {
-                    console.log('inside else')
-                    chatData.push({
-                        msg: data[key].message,
-                        clickable: false,
-                        botMsg: true,
-                        Multioption: false
-                    });
-                }
+                // }
+                // else 
+                // {
+                //     console.log('inside else')
+                //     chatData.push({
+                //         msg: data[key].message,
+                //         clickable: false,
+                //         botMsg: true,
+                //         Multioption: false
+                //     });
+                // }
                 //console.log("key-->"+key)
             });
 
             if (atkon == "") {
                 chatData.push({
-                    msg: 'Please login',
+                    msg: 'Please login / signup to begin',
                     botMsg: true,
                     clickable: false,
                     Multioption: false
                 });
             }
             else {
-
                 this.fetchTopic('Topic');
             }
             this.pushToChat(chatData);
@@ -166,37 +169,97 @@ export class Bot extends Component {
     }
 
     //Upload answer to chatArray when user clicks on see answer
-    UploadAnswer() {
-        let Correctoptions = [];
-        let RowID;
-        let count = 1;
-        let AnsArray = [];
+    // UploadAnswer() {
+    //     let Correctoptions = [];
+    //     let RowID;
+    //     let count = 1;
+    //     let AnsArray = [];
+    //     let chatData = this.state.chatArray;
+    //     let CurrentQuestion = this.state.CurrentQuestion;
+    //     if (this.state.CurrentRowID.length) {
+    //         //console.log('CurrentRowID.length-1',this.state.CurrentRowID.length-1)
+    //         RowID = this.state.CurrentRowID[this.state.CurrentRowID.length - 1].rowID;
+    //     }
+    //     else {
+    //         RowID = -1;
+    //     }
+    //     Object.keys(CurrentQuestion).forEach(function (key) {
+    //         key = parseInt(RowID) + 1;
+    //         console.log('key', key)
+    //         if (count > 0) {
+    //             for (let i = 0, len = CurrentQuestion[key].AnsKey.length; i < len; i += 1) {
+    //                 AnsArray.push({
+    //                     value: CurrentQuestion[key].AnsKey.charAt(i) - 1
+    //                 });
+    //                 //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i)); 
+    //                 console.log('AnsArray', AnsArray)
+    //             }
+    //             for (let i = 0; i < AnsArray.length; i++) {
+    //                 Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);
+    //                 //console.log('AnsArray[i].value', AnsArray[i].value);
+    //             }
+    //             chatData.push({
+    //                 msg: Correctoptions,
+    //                 botMsg: true,
+    //                 clickable: false,
+    //                 Multioption: false
+    //             });
+    //             chatData.push({
+    //                 msg: "Next Question",
+    //                 botMsg: true,
+    //                 clickable: true,
+    //                 Multioption: false
+    //             });
+    //         }
+    //         count--;
+    //     });
+    //     this.setState({ chatArray: chatData });
+    // }
+
+
+    UploadAnswer(){
         let chatData = this.state.chatArray;
+        let RowID='';
+        let Correctoptions = [];
+        let correctSingleOption='';
+        let AnsArray = [];
         let CurrentQuestion = this.state.CurrentQuestion;
-        if (this.state.CurrentRowID.length) {
-            //console.log('CurrentRowID.length-1',this.state.CurrentRowID.length-1)
-            RowID = this.state.CurrentRowID[this.state.CurrentRowID.length - 1].rowID;
+        if(!CurrentQuestion[0].Multioption)
+        {
+            console.log('CurrentQuestion',CurrentQuestion);
+        let AnsKey = CurrentQuestion[0].AnsKey;
+        console.log('AnsKey',AnsKey);
+        RowID = AnsKey-1;
+        correctSingleOption=CurrentQuestion[RowID].msg;
+        console.log('correctOption',correctSingleOption);
+        chatData.push({
+                msg: <form><FaCaretRight></FaCaretRight>{correctSingleOption}</form>,
+                botMsg: true,
+                clickable: false,
+                Multioption: false
+            });
+            chatData.push({
+                msg: "Next Question",
+                botMsg: true,
+                clickable: true,
+                Multioption: false
+            });
+            this.setState({ chatArray: chatData });
         }
-        else {
-            RowID = -1;
-        }
-        Object.keys(CurrentQuestion).forEach(function (key) {
-            key = parseInt(RowID) + 1;
-            console.log('key', key)
-            if (count > 0) {
-                for (let i = 0, len = CurrentQuestion[key].AnsKey.length; i < len; i += 1) {
-                    AnsArray.push({
-                        value: CurrentQuestion[key].AnsKey.charAt(i) - 1
-                    });
-                    //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i)); 
-                    console.log('AnsArray', AnsArray)
-                }
-                for (let i = 0; i < AnsArray.length; i++) {
-                    Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);
-                    //console.log('AnsArray[i].value', AnsArray[i].value);
-                }
-                chatData.push({
-                    msg: Correctoptions,
+        else
+        {
+            let AnsKey = CurrentQuestion[0].AnsKey;
+            console.log('AnsKey',AnsKey);
+            for (let i = 0, len = AnsKey.length; i < len; i += 1) {
+                AnsArray.push({
+                    value: AnsKey.charAt(i)-1
+                });
+            }
+            for (let i = 0; i < AnsArray.length; i++) {
+                Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);  
+            }
+            chatData.push({
+                msg: Correctoptions,
                     botMsg: true,
                     clickable: false,
                     Multioption: false
@@ -207,10 +270,8 @@ export class Bot extends Component {
                     clickable: true,
                     Multioption: false
                 });
-            }
-            count--;
-        });
-        this.setState({ chatArray: chatData });
+                this.setState({ chatArray: chatData });                
+        }
     }
 
     //Function to upload questions to chatarray
@@ -280,7 +341,8 @@ export class Bot extends Component {
                 //     });
                 // }
                 currentComponent.setState({ Checkedval: [] });
-                if (DBQuestions[key].MultipleAns == true) {
+                if (DBQuestions[key].MultipleAns == true) 
+                {
 
                     if (DBQuestions[key].questionText !== "") {
                         CurQuestionarr.push(
@@ -310,6 +372,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 1,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
 
                     }
@@ -334,6 +397,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 2,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
 
                     }
@@ -356,6 +420,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 3,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
                     }
 
@@ -379,6 +444,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 4,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
@@ -400,6 +466,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 5,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
@@ -421,6 +488,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 6,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
                     }
 
@@ -443,6 +511,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 7,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:true
                         });
                     }
 
@@ -477,6 +546,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 1,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
 
@@ -499,6 +569,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 2,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
                     if (DBQuestions[key].answerChoice3 !== "") {
@@ -520,6 +591,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 3,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
 
@@ -543,6 +615,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 4,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
@@ -564,6 +637,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 5,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
@@ -585,6 +659,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 6,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
 
@@ -607,6 +682,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 7,
                             AnsKey: DBQuestions[key].correctAnswer,
+                            Multioption:false
                         });
                     }
                 }
@@ -614,7 +690,7 @@ export class Bot extends Component {
                 // currentComponent.setState({Checkedval:Checkedval})
 
                 chatData.push({
-                    msg: CurQuestionarr,
+                    msg: <RadioGroup>{CurQuestionarr}</RadioGroup>,
                     botMsg: true, //To know it is bot message
                     //clickable: DBQuestions[key].MultipleAns ? false : true, //Making bubble as clickable
                     clickable: false,
@@ -670,14 +746,33 @@ export class Bot extends Component {
         let rowID;
         console.log('Inside check ans', msg)
         let CurrentQuestion = this.state.CurrentQuestion;
-        console.log('Inside check ans', typeof (CurrentQuestion), CurrentQuestion)
+        //console.log('Inside check ans', typeof (CurrentQuestion), CurrentQuestion)
 
         //Loop currentQuestions for options
         Object.keys(CurrentQuestion).map(key => {
             console.log('Message is', CurrentQuestion[key].msg)
-            if (msg.trim() === CurrentQuestion[key].msg) {
-                console.log('correct option', CurrentQuestion[key].choice)
+            if (msg.trim() === CurrentQuestion[key].msg.trim()) {
+                console.log('user choice is --> ', CurrentQuestion[key].choice)
                 const choice = CurrentQuestion[key].choice;
+
+                console.log( 'correct answer is -->', CurrentQuestion[key].AnsKey)
+                console.log( 'correct answer length is -->', CurrentQuestion[key].AnsKey.length)
+
+                 switch(CurrentQuestion[key].AnsKey)
+                {
+                     case 'A' : CurrentQuestion[key].AnsKey = '1';
+                                break;
+                     case 'B' : CurrentQuestion[key].AnsKey = '2';
+                                break;
+                     case 'C' : CurrentQuestion[key].AnsKey = '3';
+                                 break;
+                     case 'D' : CurrentQuestion[key].AnsKey = '4';
+                                 break;
+                     case 'E' : CurrentQuestion[key].AnsKey = '5';
+                                 break;
+                }
+
+                console.log( 'correct answer after is -->', CurrentQuestion[key].AnsKey)
                 if (choice == CurrentQuestion[key].AnsKey) {
                     rowID = CurrentQuestion[key].key
                     res = 1; //If the selected option is correct
@@ -685,7 +780,8 @@ export class Bot extends Component {
                     TotalCorrectedQuestions[0].AnsweredQuestions = total2;
                     console.log('Total2', total2);
                 }
-                else {
+                else 
+                {
                     rowID = CurrentQuestion[key].key
                     res = 2; //If the selected option is wrong
                 }
@@ -864,7 +960,26 @@ export class Bot extends Component {
                 console.log('currentQuestion inside multi ans', this.state.CurrentQuestion)
                 AnsKey = this.state.CurrentQuestion[0].AnsKey;
                 console.log('AnsKey', AnsKey)
-                console.log('AnsKey type', typeof AnsKey)
+                console.log('AnsKey type', typeof AnsKey)              
+                
+                let tempanskey = [];
+                tempanskey = AnsKey.split(",");
+                console.log('split anskey ',tempanskey)
+                //Object.
+                // switch(AnsKey)
+                // {
+                //      case 'A' : CurrentQuestion[key].AnsKey = '1';
+                //                 //break;
+                //      case 'B' : CurrentQuestion[key].AnsKey = '2';
+                //                // break;
+                //      case 'C' : CurrentQuestion[key].AnsKey = '3';
+                //                 // break;
+                //      case 'D' : CurrentQuestion[key].AnsKey = '4';
+                //                  //break;
+                //      case 'E' : CurrentQuestion[key].AnsKey = '5';
+                //                 // break;
+                // }
+
                 currentRow = this.state.CurrentQuestion[0].key;
             }
             let Checkedval = this.state.Checkedval;
@@ -1038,7 +1153,7 @@ export class Bot extends Component {
                     console.log('Difflevels', data)
                     let chatData = this.state.chatArray
                     temparr.push(
-                        "Please select difficulty levels"
+                        "Please select a difficulty level"
                     );
                     this.setState({ selectedvalue: '' })
                     console.log('initial selection : ', this.state.selectedvalue)
@@ -1075,7 +1190,7 @@ export class Bot extends Component {
                     };
 
                     chatData.push({
-                        msg: temparr,
+                        msg: <RadioGroup>{temparr}</RadioGroup>,
                         botMsg: true,
                         clickable: false,
                         Qlevels: true,// to identify the pushed text is Question levels
@@ -1158,7 +1273,7 @@ export class Bot extends Component {
                         if (data[key].topic != "") {
 
                             temptoparr.push(
-                                <form>
+                                <form>                                  
                                     <FormControlLabel
                                         control={<Radio />}
                                         label={data[key].topic}
@@ -1173,7 +1288,7 @@ export class Bot extends Component {
                     });
 
                     chatData.push({
-                        msg: temptoparr,
+                        msg: <RadioGroup>{temptoparr}</RadioGroup>,
                         botMsg: true,//Msg is from bot
                         clickable: false, //Make bubble clickable
                         Topic: true, //Identify the pushed text is topic
@@ -1240,7 +1355,8 @@ export class Bot extends Component {
 
             let selectedQoption = this.state.selectedQoption
             console.log("check sel val inside handle send", selectedQoption)
-            if (msg.toUpperCase().trim() === "TOPIC") {
+            if (msg.toUpperCase().trim() === "TOPIC") 
+            {
                 this.fetchTopic(msg);
                 const chatArray = this.state.chatArray;
                 chatArray.push({
@@ -1250,7 +1366,6 @@ export class Bot extends Component {
                     Multioption: false
                 });
                 this.setState({ chatArray: chatArray });
-
             }
             //Call question difficulty levels
             // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
