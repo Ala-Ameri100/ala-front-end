@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Card } from 'react-bootstrap';
 import { Doughnut, Polar } from 'react-chartjs-2';
-import ReactStoreIndicator from 'react-score-indicator'
+
 
 const MainDiv = styled.div`
     display: flex;
@@ -124,8 +124,9 @@ const radarData = {
     ]
 };
 
-export const InfoBox = (props)=> {
+export class InfoBox extends Component {
 
+    render() {
         return (
             <>
                 {/* <h1> Performance Charts </h1>
@@ -146,42 +147,30 @@ export const InfoBox = (props)=> {
                     </Col>
                 </Row> */}
                 <MainDiv>
-                    <CardDiv>
-                        <Card className="ScorecardDiv" style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
-                            <Card.Body className="scoreArch">
-                                <Card.Title>Score board</Card.Title>
-                                 <ReactStoreIndicator  
-                                    value={props.AnsweredQuestions}
-                                    maxValue={props.TotalQuestions}
-                                />
-                            </Card.Body>
-                        </Card>
-                        <br></br>
-                        {/* <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                    <CardDiv style={{}}>
+                        <Card style={{ width: '100%' }}>
                             <Card.Body>
                                 <Card.Title>Stack Share</Card.Title>
                                 <Doughnut data={doughnutData} />
                             </Card.Body>
-                        </Card> */}
-                        <br></br>
-                        <Card className="ScorecardDiv" style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        </Card>
+                        <Card style={{ width: '100%' }}>
                             <Card.Body>
-                                <Card.Title>PEOPLE AT AMERI100</Card.Title>
-                                <div  style={{ "display": "flex", "justifyContent": "center" }}>
-                                <iframe  width="560" height="315" src="https://www.youtube.com/embed/Nwsmif3Ttkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <Card.Title>HANA EDGE</Card.Title>
+                                <div style={{ "display": "flex", "justifyContent": "center" }}>
+                                    <iframe title="hanaEdge" width="560" height="315" src="https://www.youtube-nocookie.com/embed/v0wiWJETQVw" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                                 </div>
                             </Card.Body>
                         </Card>
-                        <br></br>
-                        {/* <Card style={{ width: '80%', boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
+                        <Card style={{ width: '100%' }}>
                             <Card.Body>
                                 <Card.Title>User Sentiment</Card.Title>
                                 <Polar data={polarData} />
                             </Card.Body>
-                        </Card> */}
+                        </Card>
                     </CardDiv>
                 </MainDiv>
             </>
         )
-    
+    }
 }
