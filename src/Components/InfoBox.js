@@ -150,7 +150,7 @@ export const InfoBox = (props)=> {
                         <Card className="ScorecardDiv" style={{ width: '80%',boxShadow:'0px 5px 5px  grey', backgroundColor:'#f5f5ef' }}>
                             <Card.Body className="scoreArch">
                                 <Card.Title>Score board</Card.Title>
-                                <ReactStoreIndicator 
+                                 <ReactStoreIndicator  
                                     value={props.AnsweredQuestions}
                                     maxValue={props.TotalQuestions}
                                 />
@@ -168,7 +168,7 @@ export const InfoBox = (props)=> {
                             <Card.Body>
                                 <Card.Title>PEOPLE AT AMERI100</Card.Title>
                                 <div  style={{ "display": "flex", "justifyContent": "center" }}>
-                                <iframe className="vidDiv" width="560" height="315" src="https://www.youtube.com/embed/Nwsmif3Ttkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe  width="560" height="315" src="https://www.youtube.com/embed/Nwsmif3Ttkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
                             </Card.Body>
                         </Card>

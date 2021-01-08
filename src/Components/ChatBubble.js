@@ -129,6 +129,23 @@ export class ChatBubble extends React.Component{
 
          <IMges botMsg={this.props.botMsg} src={`${process.env.PUBLIC_URL}/assets/logobot.png`}></IMges>
              <Bubble Qoptions={this.props.Qoptions} IsQuestion={this.props.IsQuestion} choice={this.props.choice} botMsg={this.props.botMsg} clicks={this.props.clicks} onClick={() => this.props.handleClick(this.props.text)} >
+              
+              {/* <TypingBalls>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+              </TypingBalls> */}
+             {/* <Bubble Multioption={props.Multioption} choice={props.choice} botMsg={props.botMsg} clicks={props.clicks} onClick={() => props.handleClick(props.text)}>  */}
+              {/* {this.props.Multioption ?
+              <FormControlLabel
+              control={
+                <Checkbox
+                  color="primary"
+                />
+              }
+              label={this.props.text}
+              value={this.props.choice}
+            />: */}
               <p>{this.props.text}</p>
       </Bubble>
       </Bubblediv>      

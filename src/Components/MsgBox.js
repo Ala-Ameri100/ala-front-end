@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { FaMicrophoneAlt, FaTelegramPlane } from 'react-icons/fa';
 import { ApplicationContext } from '../Context';
+// import { Bot } from '../Bot';
+
 
 
 const Msg = styled.div`
     display: flex;
    //min-height: 15%;
+   //height: 15%;
     width: 100%;
     /* min-width: 150px;
     max-width: 500px; */
@@ -67,7 +70,7 @@ export class MsgBox extends Component {
 
     handleEnter(event) {
         if (event.key === 'Enter') {
-            //this.handleSend();
+           // this.handleSend();
         }
     }
 
@@ -81,15 +84,17 @@ export class MsgBox extends Component {
         });
     }
 
+
+
     startRecognition() {
         const { toggleListening } = this.context;
-        if (recognition) {
+        if (recognition) {console.log(recognition)
             toggleListening();
             recognition.start();
             console.log('listening...');
             recognition.onresult = event => {
                 let speech = event.results[0][0].transcript;
-                // console.log(speech);
+                 console.log('im here',speech);
                 this.setState({ value: speech });
                 // this.setState({ value: speech }, this.handleSend);
             };         
@@ -104,9 +109,11 @@ export class MsgBox extends Component {
 
     render() {
         return (
-            <>
-                
+            <>                
                 <Msg>
+                    {/* <Bot> OnOclick={(opt) => this.handleChange(opt)}
+
+                    </Bot> */}
                     {/* <textarea placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange}></textarea> */}
                     <Form.Control as="textarea" style={{"box-shadow": "0px 3px 15px"}} placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange} />
                     <div>

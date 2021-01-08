@@ -1,7 +1,7 @@
 import React, { Component , Fragment} from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import styled from 'styled-components';
-import { FaQuestionCircle, FaInfoCircle, FaSignInAlt,FaSignOutAlt, FaStreetView } from 'react-icons/fa';
+import { FaQuestionCircle, FaInfoCircle, FaSignInAlt,FaSignOutAlt, FaStreetView, } from 'react-icons/fa';
 import InfoModal from './InfoModal'
 import LoginModal from './LoginModal'
 import SignupModal from './SignupModal'

@@ -5,7 +5,6 @@ import { FaCaretRight, FaGrinBeam, FaFrown } from 'react-icons/fa';
 import NaviBar from './Components/Navibar';
 import { ChatBox } from './Components/ChatBox';
 import { MsgBox } from './Components/MsgBox';
-import { InfoBox } from './Components/InfoBox';
 import { ApplicationContext } from './Context';
 import styled, { keyframes } from 'styled-components';
 import { fadeInUp } from 'react-animations';
@@ -13,7 +12,6 @@ import LoginModal from './Components/LoginModal';
 import LoadingDots from './Components/LoadindDots';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Checkbox, useIsFocusVisible, Radio, RadioGroup } from '@material-ui/core';
-
 
 const bounceInAnimation = keyframes`${fadeInUp}`;
 
@@ -38,9 +36,8 @@ const MainDiv = styled.div`
     height: calc(100vh - 58px);
     padding-right:30px;
     padding-left:30px;
-   
-`;
 
+`;
 
 const ChatDiv = styled.div`
     // background-color:#A9A9A9;
@@ -52,13 +49,11 @@ const ChatDiv = styled.div`
     box-shadow: 0px 3px 15px ;
     margin : 20px
     // background: linear-gradient(#abbaab, #ffffff);
-    header{        
+    header{
         width:100%;
         //height:15%;
         position:relative;
         background-image: linear-gradient(to right, #303f9f,#45cafc);
-        border-top-left-radius:10px;
-        border-top-right-radius:10px;
         border-bottom-left-radius: 50% 20%;
         border-bottom-right-radius: 50% 20%;
         color: white;
@@ -75,7 +70,6 @@ const InfoDiv = styled.div`
     padding-top:15px;
     padding-bottom:15px;
 `;
-
 
 export class Bot extends Component {
 
@@ -95,9 +89,11 @@ export class Bot extends Component {
             Checkedval: [],
             isLoading: false,
             selectedvalue: '',
+            selectedtopic: '',
             selectedQoption: ''
         };
         this.rdlevelchange = this.rdlevelchange.bind(this);
+        this.rdtopicchange = this.rdtopicchange.bind(this);
         this.selectedmulti = this.selectedmulti.bind(this);
     }
 
@@ -110,18 +106,18 @@ export class Bot extends Component {
             Object.keys(data).forEach(function (key) {
 
                 console.log('inside compdidmount', atkon)
-                // if (atkon !== "") 
+                // if (atkon !== "")
                 // {
-                    console.log('inside if')
+                console.log('inside if')
 
-                    chatData.push({
-                        msg: data[key].message,
-                        clickable: data[key].clickable,
-                        botMsg: true,
-                        Multioption: false
-                    });
+                chatData.push({
+                    msg: data[key].message,
+                    clickable: data[key].clickable,
+                    botMsg: true,
+                    Multioption: false
+                });
                 // }
-                // else 
+                // else
                 // {
                 //     console.log('inside else')
                 //     chatData.push({
@@ -142,9 +138,9 @@ export class Bot extends Component {
                     Multioption: false
                 });
             }
-            else {
-                this.fetchTopic('Topic');
-            }
+            // else {
+            //     this.fetchTopic('Topic');
+            // }
             this.pushToChat(chatData);
         });
     }
@@ -157,6 +153,12 @@ export class Bot extends Component {
     rdlevelchange(e) {
         this.setState({ selectedvalue: e.target.value });
         console.log('selected event ', e.target.value)
+        // console.log('selected option',this.state.)
+    }
+
+    rdtopicchange(e) {
+        this.setState({ selectedtopic: e.target.value });
+        console.log('selected topic ', e.target.value)
         // console.log('selected option',this.state.)
     }
 
@@ -191,7 +193,7 @@ export class Bot extends Component {
     //                 AnsArray.push({
     //                     value: CurrentQuestion[key].AnsKey.charAt(i) - 1
     //                 });
-    //                 //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i)); 
+    //                 //AnsArray.push(+CurrentQuestion[key].AnsKey.charAt(i));
     //                 console.log('AnsArray', AnsArray)
     //             }
     //             for (let i = 0; i < AnsArray.length; i++) {
@@ -216,23 +218,21 @@ export class Bot extends Component {
     //     this.setState({ chatArray: chatData });
     // }
 
-
-    UploadAnswer(){
+    UploadAnswer() {
         let chatData = this.state.chatArray;
-        let RowID='';
+        let RowID = '';
         let Correctoptions = [];
-        let correctSingleOption='';
+        let correctSingleOption = '';
         let AnsArray = [];
         let CurrentQuestion = this.state.CurrentQuestion;
-        if(!CurrentQuestion[0].Multioption)
-        {
-            console.log('CurrentQuestion',CurrentQuestion);
-        let AnsKey = CurrentQuestion[0].AnsKey;
-        console.log('AnsKey',AnsKey);
-        RowID = AnsKey-1;
-        correctSingleOption=CurrentQuestion[RowID].msg;
-        console.log('correctOption',correctSingleOption);
-        chatData.push({
+        if (!CurrentQuestion[0].Multioption) {
+            console.log('CurrentQuestion', CurrentQuestion);
+            let AnsKey = CurrentQuestion[0].AnsKey;
+            console.log('AnsKey', AnsKey);
+            RowID = AnsKey - 1;
+            correctSingleOption = CurrentQuestion[RowID].msg;
+            console.log('correctOption', correctSingleOption);
+            chatData.push({
                 msg: <form><FaCaretRight></FaCaretRight>{correctSingleOption}</form>,
                 botMsg: true,
                 clickable: false,
@@ -246,31 +246,30 @@ export class Bot extends Component {
             });
             this.setState({ chatArray: chatData });
         }
-        else
-        {
+        else {
             let AnsKey = CurrentQuestion[0].AnsKey;
-            console.log('AnsKey',AnsKey);
+            console.log('AnsKey', AnsKey);
             for (let i = 0, len = AnsKey.length; i < len; i += 1) {
                 AnsArray.push({
-                    value: AnsKey.charAt(i)-1
+                    value: AnsKey.charAt(i) - 1
                 });
             }
             for (let i = 0; i < AnsArray.length; i++) {
-                Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);  
+                Correctoptions.push(<form><FaCaretRight></FaCaretRight>{CurrentQuestion[AnsArray[i].value].msg}</form>);
             }
             chatData.push({
                 msg: Correctoptions,
-                    botMsg: true,
-                    clickable: false,
-                    Multioption: false
-                });
-                chatData.push({
-                    msg: "Next Question",
-                    botMsg: true,
-                    clickable: true,
-                    Multioption: false
-                });
-                this.setState({ chatArray: chatData });                
+                botMsg: true,
+                clickable: false,
+                Multioption: false
+            });
+            chatData.push({
+                msg: "Next Question",
+                botMsg: true,
+                clickable: true,
+                Multioption: false
+            });
+            this.setState({ chatArray: chatData });
         }
     }
 
@@ -341,8 +340,7 @@ export class Bot extends Component {
                 //     });
                 // }
                 currentComponent.setState({ Checkedval: [] });
-                if (DBQuestions[key].MultipleAns == true) 
-                {
+                if (DBQuestions[key].MultipleAns == true) {
 
                     if (DBQuestions[key].questionText !== "") {
                         CurQuestionarr.push(
@@ -372,7 +370,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 1,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
 
                     }
@@ -397,7 +395,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 2,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
 
                     }
@@ -420,10 +418,9 @@ export class Bot extends Component {
                             key: key,
                             choice: 3,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
                     }
-
 
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
@@ -444,7 +441,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 4,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
@@ -466,7 +463,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 5,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
@@ -488,7 +485,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 6,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
                     }
 
@@ -511,7 +508,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 7,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:true
+                            Multioption: true
                         });
                     }
 
@@ -546,7 +543,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 1,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
 
@@ -569,7 +566,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 2,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
                     if (DBQuestions[key].answerChoice3 !== "") {
@@ -591,10 +588,9 @@ export class Bot extends Component {
                             key: key,
                             choice: 3,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
-
 
                     if (DBQuestions[key].answerChoice4 !== "") {
                         CurQuestionarr.push(
@@ -615,7 +611,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 4,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
                     if (DBQuestions[key].answerChoice5 !== "") {
@@ -637,7 +633,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 5,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
                     if (DBQuestions[key].answerChoice6 !== "") {
@@ -659,7 +655,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 6,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
 
@@ -682,7 +678,7 @@ export class Bot extends Component {
                             key: key,
                             choice: 7,
                             AnsKey: DBQuestions[key].correctAnswer,
-                            Multioption:false
+                            Multioption: false
                         });
                     }
                 }
@@ -701,22 +697,20 @@ export class Bot extends Component {
                     Multioption: DBQuestions[key].MultipleAns ? true : false
                 });
 
-
                 if (DBQuestions[key].MultipleAns == true) {
-                    chatData.push({
-                        msg: "Send",
-                        botMsg: true,
-                        clickable: true
-                    });
-
+                    // chatData.push({
+                    //     msg: "Send",
+                    //     botMsg: true,
+                    //     clickable: true
+                    // });
 
                 }
                 else {
-                    chatData.push({
-                        msg: "Send Option",
-                        botMsg: true,
-                        clickable: true
-                    });
+                    // chatData.push({
+                    //     msg: "Send Option",
+                    //     botMsg: true,
+                    //     clickable: true
+                    // });
                 }
 
                 total = TotalCorrectedQuestions[0].TotalQuestions + 1;
@@ -755,24 +749,23 @@ export class Bot extends Component {
                 console.log('user choice is --> ', CurrentQuestion[key].choice)
                 const choice = CurrentQuestion[key].choice;
 
-                console.log( 'correct answer is -->', CurrentQuestion[key].AnsKey)
-                console.log( 'correct answer length is -->', CurrentQuestion[key].AnsKey.length)
+                console.log('correct answer is -->', CurrentQuestion[key].AnsKey)
+                console.log('correct answer length is -->', CurrentQuestion[key].AnsKey.length)
 
-                 switch(CurrentQuestion[key].AnsKey)
-                {
-                     case 'A' : CurrentQuestion[key].AnsKey = '1';
-                                break;
-                     case 'B' : CurrentQuestion[key].AnsKey = '2';
-                                break;
-                     case 'C' : CurrentQuestion[key].AnsKey = '3';
-                                 break;
-                     case 'D' : CurrentQuestion[key].AnsKey = '4';
-                                 break;
-                     case 'E' : CurrentQuestion[key].AnsKey = '5';
-                                 break;
+                switch (CurrentQuestion[key].AnsKey) {
+                    case 'A': CurrentQuestion[key].AnsKey = '1';
+                        break;
+                    case 'B': CurrentQuestion[key].AnsKey = '2';
+                        break;
+                    case 'C': CurrentQuestion[key].AnsKey = '3';
+                        break;
+                    case 'D': CurrentQuestion[key].AnsKey = '4';
+                        break;
+                    case 'E': CurrentQuestion[key].AnsKey = '5';
+                        break;
                 }
 
-                console.log( 'correct answer after is -->', CurrentQuestion[key].AnsKey)
+                console.log('correct answer after is -->', CurrentQuestion[key].AnsKey)
                 if (choice == CurrentQuestion[key].AnsKey) {
                     rowID = CurrentQuestion[key].key
                     res = 1; //If the selected option is correct
@@ -780,8 +773,7 @@ export class Bot extends Component {
                     TotalCorrectedQuestions[0].AnsweredQuestions = total2;
                     console.log('Total2', total2);
                 }
-                else 
-                {
+                else {
                     rowID = CurrentQuestion[key].key
                     res = 2; //If the selected option is wrong
                 }
@@ -793,7 +785,7 @@ export class Bot extends Component {
         else {
             return 0 + "," + rowID; //sending answer with checked question row ID if the user choosed option is wrong
         }
-        // const tifOptions = Object.keys(CurrentQuestion).map(key => 
+        // const tifOptions = Object.keys(CurrentQuestion).map(key =>
         //     <option value={key}>{CurrentQuestion[key].msg}</option>
         // )
         // console.log('Inside check answerssssssss',tifOptions)
@@ -804,6 +796,9 @@ export class Bot extends Component {
             if (this.state.CurrentQuestion.length) {
                 let RowID;
                 const res = this.CheckAnswer(msg);
+
+               this.setState({selectedQoption:''}); //emptying radio button
+
                 console.log('result is', res);
                 const answer_array = res.split(",");
                 console.log('answer_array', answer_array)
@@ -960,11 +955,11 @@ export class Bot extends Component {
                 console.log('currentQuestion inside multi ans', this.state.CurrentQuestion)
                 AnsKey = this.state.CurrentQuestion[0].AnsKey;
                 console.log('AnsKey', AnsKey)
-                console.log('AnsKey type', typeof AnsKey)              
-                
+                console.log('AnsKey type', typeof AnsKey)
+
                 let tempanskey = [];
                 tempanskey = AnsKey.split(",");
-                console.log('split anskey ',tempanskey)
+                console.log('split anskey ', tempanskey)
                 //Object.
                 // switch(AnsKey)
                 // {
@@ -989,8 +984,7 @@ export class Bot extends Component {
                 if (AnsKey.includes(Checkedval[key].val)) {
                     checkAns = checkAns + Checkedval[key].val
                 }
-                else 
-                {
+                else {
                     checkAns = checkAns;
                 }
             });
@@ -1049,11 +1043,13 @@ export class Bot extends Component {
 
     }
 
-
     fetchQuestions(msg) {
         if (msg) {
+
+            this.setState({ selectedvalue: '' }); //emptying level radio button
+
             let strchck = "More than one answer is possible";
-            let CurrentRowID = []; // Clearing current row iD   
+            let CurrentRowID = []; // Clearing current row iD
             let DBQuestions = []; // Clearing selected DB questions
             let SelTopic = this.state.SelTopic;
             const accessToken = localStorage.getItem('accessToken');
@@ -1132,6 +1128,9 @@ export class Bot extends Component {
             SelTopic.push(msg);
             const accessToken = localStorage.getItem('accessToken');
             this.setState({ SelTopic: SelTopic }); //Storing the selected topic into state object to use in fetech questions APi
+
+            this.setState({ selectedtopic: '' }); //emptying topic radio button
+
             console.log('SelTopic is', SelTopic)
             console.log('inside fetch', msg)
 
@@ -1174,15 +1173,15 @@ export class Bot extends Component {
 
                                 //     <form >
                                 //          <input
-                                //        type="radio"                              
+                                //        type="radio"
                                 //        value={diiflevels}
                                 //        name="level"
                                 //        onChange={this.rdlevelchange}
-                                //         //checked={this.state.rdchklevel==diiflevels}                                
+                                //         //checked={this.state.rdchklevel==diiflevels}
                                 //   />
                                 //     <label>
                                 //         {diiflevels}
-                                //     </label>                             
+                                //     </label>
                                 //   </form>
                             )
                         ))
@@ -1197,14 +1196,14 @@ export class Bot extends Component {
                         Multioption: false
                         //choice: 1
                     })
-                    chatData.push({
-                        msg: "Send Level",
-                        botMsg: true,
-                        clickable: true,
-                        Qlevels: true,
-                        Multioption: false
-                        //choice: 1
-                    })
+                    // chatData.push({
+                    //     msg: "Send Level",
+                    //     botMsg: true,
+                    //     clickable: true,
+                    //     Qlevels: true,
+                    //     Multioption: false
+                    //     //choice: 1
+                    // })
 
                     // chatData.push({
                     //      msg: this.state.selectedvalue,
@@ -1266,21 +1265,21 @@ export class Bot extends Component {
                     );
 
                     let thistopic = this
-                    this.setState({ selectedvalue: '' });
+                    this.setState({ selectedtopic: '' });
 
                     Object.keys(data).forEach(function (key) {
                         //console.log("key-->"+key)
                         if (data[key].topic != "") {
 
                             temptoparr.push(
-                                <form>                                  
+                                <form>
                                     <FormControlLabel
                                         control={<Radio />}
                                         label={data[key].topic}
                                         value={data[key].topic}
                                         name="groupname"
                                         //checked={this.state.selectedvalue==diiflevels}
-                                        onChange={thistopic.rdlevelchange}
+                                        onChange={thistopic.rdtopicchange}
                                     />
                                 </form>
                             )
@@ -1295,20 +1294,18 @@ export class Bot extends Component {
                         Multioption: false
                     });
 
-
-                    chatData.push({
-                        msg: "Send Topic",
-                        botMsg: true,//Msg is from bot
-                        clickable: true, //Make bubble clickable
-                        Topic: true, //Identify the pushed text is topic
-                        Multioption: false
-                    });
+                    // chatData.push({
+                    //     msg: "Send Topic",
+                    //     botMsg: true,//Msg is from bot
+                    //     clickable: true, //Make bubble clickable
+                    //     Topic: true, //Identify the pushed text is topic
+                    //     Multioption: false
+                    // });
 
                     this.pushToChat(chatData);
 
                 });
             //Add selected topic to chatbox to display
-
 
             //await this.clear();
             //Resetting state objects
@@ -1323,6 +1320,40 @@ export class Bot extends Component {
             console.log('CurrentRowID', this.state.CurrentRowID);
             //  this.setState({ chatArray: chatArray });
             //console.log('chatArray', chatArray)
+        }
+    }
+
+    fetchInto(msg) {
+        if (msg) {
+            console.log('user msg :', msg)
+            // const accessToken = localStorage.getItem('accessToken');
+            fetch('http://35.202.68.61:5010/api/v1/boatResponse', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json", "Access-Control-Origin": "*",
+                    // "Authorization": "Bearer " + accessToken
+                },
+                body: JSON.stringify( msg ),
+            }).then((res) => res.text())
+                .then((data) => {
+                    console.log('new api', JSON.stringify(data))
+
+                    let chatData = this.state.chatArray;
+
+                    chatData.push({
+                        msg: data,
+                        botMsg: true,//Msg is from bot
+                        clickable: false, //Make bubble clickable
+                        Topic: false, //Identify the pushed text is topic
+                        Multioption: false
+                    });
+
+                    this.pushToChat(chatData);
+
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
         }
     }
 
@@ -1351,12 +1382,12 @@ export class Bot extends Component {
     }
 
     handleSendMsg(msg) {
-        if (msg) {
-
+        // if (msg) {
+            //this.fetchInto(msg);
             let selectedQoption = this.state.selectedQoption
             console.log("check sel val inside handle send", selectedQoption)
-            if (msg.toUpperCase().trim() === "TOPIC") 
-            {
+            // if (msg.toUpperCase().trim() === "TOPIC") {
+            if (msg.toUpperCase().includes("TOPIC")){
                 this.fetchTopic(msg);
                 const chatArray = this.state.chatArray;
                 chatArray.push({
@@ -1369,26 +1400,45 @@ export class Bot extends Component {
             }
             //Call question difficulty levels
             // else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Topic === true)) {
-            else if (msg.toUpperCase().trim() === "SEND TOPIC") {
+            // else if (msg.trim() === "Send Topic") {
+                else if(this.state.selectedtopic!=''){
+
+               // this.handleOptionClick(this.state.selectedtopic); //to populate selected topic in text box
+
                 console.log('inside elseif loop')
-                this.fetchQuestionLevels(this.state.selectedvalue);
+                this.fetchQuestionLevels(this.state.selectedtopic);
             }
             //call Questions
 
             //else if (this.state.chatArray.some(item => msg.trim() === item.msg && item.Qlevels === true)) {
-            else if (msg.toUpperCase().trim() === "SEND LEVEL") {
+            //else if (msg.trim() === "Send Level") {
+                else if(this.state.selectedvalue!='') {
                 //console.log('inside handlesend chat array',chatArray)
-
                 this.fetchQuestions(this.state.selectedvalue);
             }
             //Check for answers
             // else if (this.state.CurrentQuestion.some(item => msg.trim() === item.msg && item.Qoptions === true)) {
-            else if (msg.toUpperCase().trim() === "SEND OPTION") {
+           // else if (msg.trim() === "Send Option") {
+                else if(selectedQoption!=''){
+                // if (selectedQoption ==='') {
+
+                //     let chatArray = this.state.chatArray;
+                //     chatArray.push({
+                //         msg: 'Please choose any one option',
+                //         botMsg: true,
+                //         clickable: false,
+                //         Multioption: false
+                //     });
+                //     this.setState({ chatArray: chatArray })
+                // }
+
+                // else {
                 this.CheckForCorrectAns(selectedQoption);
+                //   }
             }
 
             //When users click on next topic
-            else if (msg.toUpperCase().trim() === "NEXT QUESTION") {
+            else if (msg.trim() === "Next Question") {
                 let chatArray = this.state.chatArray;
                 chatArray.push({
                     msg: msg,
@@ -1401,7 +1451,7 @@ export class Bot extends Component {
                 this.UploadQuestions(msg);
             }
             //When user clicks on see answers
-            else if (msg.toUpperCase().trim() === "SEE ANSWER") {
+            else if (msg.trim() === "See Answer") {
                 let chatArray = this.state.chatArray;
                 chatArray.push({
                     msg: msg,
@@ -1412,26 +1462,42 @@ export class Bot extends Component {
                 this.setState({ chatArray: chatArray })
                 this.UploadAnswer(msg);
             }
-            else if (msg.toUpperCase().trim() == "SEND") {
-                let chatArray = this.state.chatArray;
-            if(this.state.Checkedval !=''){
-                chatArray.push({
-                msg: "Send",
-                botMsg: false,
-                clickable: false,
-                Multioption: false
-            });
-            this.setState({ chatArray: chatArray })
-            }
-              
+           // else if (msg.trim() == "Send") {
+               else if(this.state.Checkedval!=''){
+                // let chatArray = this.state.chatArray;
+                // if (this.state.Checkedval != '') {
+                //     chatArray.push({
+                //         msg: "Send",
+                //         botMsg: false,
+                //         clickable: false,
+                //         Multioption: false
+                //     });
+                //     this.setState({ chatArray: chatArray })
+                // }
+
                 console.log('inside seleted multi', this.state.Checkedval)
                 this.checkMultiAns();
             }
             //For un wanted text
             else {
-                this.fetchInto(msg)
+                let chatArray = this.state.chatArray;
+                chatArray.push({
+                    msg: msg,
+                    botMsg: false,
+                    clickable: false,
+                    Multioption: false
+                });
+                // chatArray.push({
+                //     msg: 'Sorry I did not understand your input. Please refer Info tab!',
+                //     botMsg: true,
+                //     clickable: false,
+                //     Multioption: false
+                // });
+                this.setState({ chatArray: chatArray });
+                this.fetchInto(msg);
+
             }
-        }
+       // }
     }
 
     handleCheck(val) {
@@ -1443,41 +1509,6 @@ export class Bot extends Component {
         this.setState({ Checkedval: Checkedval });
         // console.log('Checkedval',Checkedval);
     }
-    fetchInto(msg) {
-        if(msg)
-            {
-                let chatArray = this.state.chatArray;   
-                //const accessToken = localStorage.getItem('accessToken');
-                
-                //console.log(message)
-                fetch('http://35.202.68.61:5010/api/v1/boatResponse',{
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json", "Access-Control-Origin": "*",
-                    //"Authorization": "Bearer " + accessToken
-                },
-                body: JSON.stringify(msg),
-                //body: JSON.stringify({ 'messageText': msg, 'topic': null })
-                }).then((res) => res.text())
-                .then((data) => {
-                    console.log('new api',data)
-                    chatArray.push({
-                        msg: msg,
-                        botMsg: false,
-                        clickable: false,
-                        Multioption: false
-                    });
-                chatArray.push({
-                    msg: data,
-                    botMsg: true,
-                    clickable: false,
-                    Multioption: false
-                });
-                this.setState({chatArray:chatArray});
-                });  
-                
-            }
-        }
 
     toggleListening = () => {
         this.setState({ listening: !this.state.listening });
@@ -1489,21 +1520,18 @@ export class Bot extends Component {
         })
     }
 
+    // handleOptionClick(opt){
+    //     this.props.OnOclick(opt);
+    // }
+
     render() {
         return (
             <>
                 <ApplicationContext.Provider value={{ toggleListening: this.toggleListening }}>
                     <Listening hidden={this.state.listening} />
-                    <NaviBar className="NewChat" ></NaviBar>
-
                     <MainDiv className="maindivCls">
-                        <InfoDiv className="infodivcls">
-                            <InfoBox
-                                AnsweredQuestions={this.state.TotalCorrectedQuestions[0].AnsweredQuestions}
-                                TotalQuestions={this.state.TotalCorrectedQuestions[0].TotalQuestions}
-                            />
-                        </InfoDiv>
                         <ChatDiv className="chatdivcls">
+                        <NaviBar className="NewChat" ></NaviBar>
                             <header className="headers"><img src="/assets/logobot.png" width="40px" height="40px"></img>  ALA</header>
                             <ChatBox className="chatboxcls" chatArray={this.state.chatArray} onClick={(msg) => this.handleSend(msg)} onCheck={(val) => this.handleCheck(val)}></ChatBox>
                             {this.state.isLoading && <LoadingDots></LoadingDots>}
@@ -1515,3 +1543,4 @@ export class Bot extends Component {
         )
     }
 }
+
