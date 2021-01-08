@@ -12,6 +12,8 @@ const Chat = styled.div`
     overflow-y: auto;
     padding: 5px;
     margin-bottom: 10px;
+    border-radius: 5%;
+    
 `;
 
 export class ChatBox extends Component {
@@ -23,20 +25,29 @@ export class ChatBox extends Component {
     }
 
     handleClick(value, clickable) {
+        console.log('Inside handle click',value);
         if (clickable) this.props.onClick(value);
+        
+    }
+    handleCheck(value, Multioption){
+        if(Multioption) {
+            this.props.onCheck(value);
+            console.log('Option is',value )
+        }
+        
     }
 
     render() {
         return (
             <Chat id="chatDiv">
                 {this.props.chatArray.map((chat, index) => {
-                    return <ChatBubble key={index} text={chat.message} botMsg={chat.botMsg} clicks={chat.clickable} handleClick={(value) => this.handleClick(value, chat.clickable)}></ChatBubble>
+                    //console.log("chat--->"+JSON.stringify(chat)+"--index-->"+index)
+                    return <ChatBubble Qoptions={chat.Qoptions} IsQuestion={chat.IsQuestion} key={index} text={chat.msg} botMsg={chat.botMsg} choice={chat.choice} clicks={chat.clickable} handleClick={(value) => this.handleClick(value, chat.clickable)} handleCheck={(value)=>this.handleCheck(value, chat.Multioption)}></ChatBubble>
                 })}
                 <div style={{ float: "left", clear: "both" }}
                     ref={(el) => { this.messagesEnd = el; }}>
                 </div>
             </Chat>
-
         )
     }
 }

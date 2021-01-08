@@ -4,21 +4,24 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { FaMicrophoneAlt, FaTelegramPlane } from 'react-icons/fa';
 import { ApplicationContext } from '../Context';
 
+
 const Msg = styled.div`
     display: flex;
-    min-height: 15%;
+   //min-height: 15%;
     width: 100%;
     /* min-width: 150px;
     max-width: 500px; */
     align-items: end;
     padding: 5px;
+    padding:10px;
 
     textarea {
         resize: none;
         width: 100%;
         height: 100%;
         margin: 0px 5px 0px 5px;
-        padding: 5px;
+        
+        /*box-shadow: 0px 5px 5px  grey;*/
     }
     
     div {
@@ -29,6 +32,7 @@ const Msg = styled.div`
 
         button {
             margin: 5px;
+            // box-shadow: 0px 5px 5px  grey;
         }
     }
 `;
@@ -63,7 +67,7 @@ export class MsgBox extends Component {
 
     handleEnter(event) {
         if (event.key === 'Enter') {
-            this.handleSend();
+            //this.handleSend();
         }
     }
 
@@ -101,12 +105,13 @@ export class MsgBox extends Component {
     render() {
         return (
             <>
+                
                 <Msg>
                     {/* <textarea placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange}></textarea> */}
-                    <Form.Control as="textarea" placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange} />
+                    <Form.Control as="textarea" style={{"box-shadow": "0px 3px 15px"}} placeholder="Enter your message...." value={this.state.value} onKeyUp={this.handleEnter} onChange={this.handleChange} />
                     <div>
-                        <Button variant="outline-primary" onClick={this.handleSend}><FaTelegramPlane size="1.5em" /></Button>
-                        <Button variant="outline-success" onClick={this.startRecognition}><FaMicrophoneAlt size="1.5em" /></Button>
+                        <Button style={{"box-shadow": "0px 3px 15px"}} variant="outline-primary" onClick={this.handleSend}><FaTelegramPlane size="1.5em" /></Button>
+                        <Button style={{"box-shadow": "0px 3px 15px"}} variant="outline-success" onClick={this.startRecognition}><FaMicrophoneAlt size="1.5em" /></Button>
                     </div>
                 </Msg>
 
